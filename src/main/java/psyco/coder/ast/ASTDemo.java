@@ -13,7 +13,7 @@ import java.util.List;
  * Created by lipeng on 15/9/14.
  */
 public class ASTDemo {
-    static final File f = new File("/Users/psyco/workspace/github/projects/src/main/java/psyco/springRMI/client/Data.java");
+    static final File f = new File("/Users/peng/workspace/github/coder/src/main/java/psyco/coder/ast/ASTDemo.java");
     CompilationUnit unit;
     List<ImportDeclaration> imports;
 
