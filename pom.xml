@@ -5,7 +5,11 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>psyco</groupId>
+<<<<<<< HEAD
     <artifactId>coder</artifactId>
+=======
+    <artifactId>Coder</artifactId>
+>>>>>>> 8129b9be2a97e44d70fbd076682610b3dcfffbb8
     <version>1.0-SNAPSHOT</version>
 
 

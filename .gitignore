@@ -1,5 +1,8 @@
 .idea
+<<<<<<< HEAD
 .idea/
+=======
+>>>>>>> 8129b9be2a97e44d70fbd076682610b3dcfffbb8
 target
 *.imi
 *.iml
