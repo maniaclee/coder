@@ -50,7 +50,7 @@ public class RythmEngine {
 
     @Test
     public void est() throws Exception {
-        Object[] re = builder(new FileInputStream("/Users/peng/workspace/github/coder/src/main/java/psyco/coder/Shit.java"));
+        Object[] re = builder(new FileInputStream("/Users/peng/workspace/github/coder/src/main/java/psyco/coder/ast/parser/Shit.java"));
 //        System.out.println(Rythm.render("hello @whos! @sdf", "rythm", "shit"));
 //        System.out.println(re);
         System.out.println(Rythm.render(IOUtils.toString(RythmEngine.class.getClassLoader().getResourceAsStream("Builder.java")), re));
