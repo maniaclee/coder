@@ -15,6 +15,7 @@ import psyco.coder.ast.util.CaseUtil;
 
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -76,5 +77,112 @@ public class Builder {
         System.out.println(beetl("/template/Builder.btl", ImmutableMap.of("bp", builder(s))));
     }
 
+
+    public static  class BuilderParam extends ParamBase{
+        public  String className;
+        public  String builderClassName;
+        public List<Field> fields;
+
+        public BuilderParam() {
+        }
+
+        public BuilderParam(String className, String builderClassName, List<Field> fields) {
+            this.className = className;
+            this.builderClassName = builderClassName;
+            this.fields = fields;
+        }
+
+        public String getClassName() {
+            return className;
+        }
+
+        public void setClassName(String className) {
+            this.className = className;
+        }
+
+        public String getBuilderClassName() {
+            return builderClassName;
+        }
+
+        public void setBuilderClassName(String builderClassName) {
+            this.builderClassName = builderClassName;
+        }
+
+        public List<Field> getFields() {
+            return fields;
+        }
+
+        public void setFields(List<Field> fields) {
+            this.fields = fields;
+        }
+
+        @Override
+        public String toString() {
+            return "BuilderParam{" +
+                    "className='" + className + '\'' +
+                    ", builderClassName='" + builderClassName + '\'' +
+                    ", fields=" + fields +
+                    '}';
+        }
+    }
+
+    public static class Field {
+        public String name;
+        public  String setter;
+        public  String getter;
+        public String type;
+
+        public Field() {
+        }
+
+        public Field(String name, String setter, String getter, String type) {
+            this.name = name;
+            this.setter = setter;
+            this.getter = getter;
+            this.type = type;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+
+        public String getSetter() {
+            return setter;
+        }
+
+        public void setSetter(String setter) {
+            this.setter = setter;
+        }
+
+        public String getGetter() {
+            return getter;
+        }
+
+        public void setGetter(String getter) {
+            this.getter = getter;
+        }
+
+        public String getType() {
+            return type;
+        }
+
+        public void setType(String type) {
+            this.type = type;
+        }
+
+        @Override
+        public String toString() {
+            return "Field{" +
+                    "name='" + name + '\'' +
+                    ", setter='" + setter + '\'' +
+                    ", getter='" + getter + '\'' +
+                    ", type='" + type + '\'' +
+                    '}';
+        }
+    }
 
 }
