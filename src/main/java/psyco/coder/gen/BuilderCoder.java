@@ -22,12 +22,12 @@ import java.util.stream.Collectors;
 /**
  * Created by peng on 15/10/8.
  */
-public class Builder {
+public class BuilderCoder {
 
     public static BuilderParam builder(String s) throws Exception {
         ClassParser ast = ClassParser.parse(s);
         TypeDeclaration clz = ast.findClass();
-        return new BuilderParam(clz.getName().toString(), clz.getName().toString() + "Builder",
+        return new BuilderParam(clz.getName().toString(), clz.getName().toString() + "BuilderCoder",
                 ast.fields(clz).stream().map(f -> {
                             String fn = ClassParser.getFieldName(f);
                             return new Field(fn, CaseUtil.setter(fn), CaseUtil.getter(fn), f.getType().toString());
@@ -36,7 +36,7 @@ public class Builder {
     }
 
     public static String gen(String s) throws Exception {
-        return Rythm.render(IOUtils.toString(Builder.class.getClassLoader().getResourceAsStream("template/Builder.javaTM")), builder(s), Lists.newArrayList(1, 4, 3, 2));
+        return Rythm.render(IOUtils.toString(BuilderCoder.class.getClassLoader().getResourceAsStream("template/Builder.javaTM")), builder(s), Lists.newArrayList(1, 4, 3, 2));
     }
 
     public static String beetl(String template, Map<String, Object> map) throws IOException {
@@ -53,22 +53,6 @@ public class Builder {
             t.binding(s, map.get(s));
         return t.render();
     }
-//
-//    public static String genVelocity(String s) throws Exception {
-//       return velocity(ImmutableMap.of("bp", builder(s)),"");
-//    }
-//
-//    public static <T> String velocity(Map<String , T>  map , String template){
-//        Template t = ve.getTemplate( template );
-//        VelocityContext context = new VelocityContext();
-//        for(String s : map)
-//        context.put(s,map.get(s));
-//        VelocityEngine ve = new VelocityEngine();
-//        ve.init();
-//        StringWriter writer = new StringWriter();
-//        return t.merge( context, writer );
-//    }
-
 
     @Test
     public void sdfsd() throws Exception {
@@ -78,9 +62,9 @@ public class Builder {
     }
 
 
-    public static  class BuilderParam extends ParamBase{
-        public  String className;
-        public  String builderClassName;
+    public static class BuilderParam extends ParamBase {
+        public String className;
+        public String builderClassName;
         public List<Field> fields;
 
         public BuilderParam() {
@@ -128,8 +112,8 @@ public class Builder {
 
     public static class Field {
         public String name;
-        public  String setter;
-        public  String getter;
+        public String setter;
+        public String getter;
         public String type;
 
         public Field() {
