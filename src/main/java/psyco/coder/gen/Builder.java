@@ -1,4 +1,4 @@
-package psyco.coder.ast.gen;
+package psyco.coder.gen;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;

@@ -1,4 +1,4 @@
-package psyco.coder.ast.gen;
+package psyco.coder.gen;
 
 import org.eclipse.jdt.core.dom.TypeDeclaration;
 import psyco.coder.ast.parser.ClassParser;
