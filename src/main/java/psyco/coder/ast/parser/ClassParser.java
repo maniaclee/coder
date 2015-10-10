@@ -9,6 +9,7 @@ import psyco.coder.ast.util.CaseUtil;
 import java.io.File;
 import java.io.FileReader;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 /**
@@ -61,7 +62,7 @@ public class ClassParser {
 
     public boolean hasSetter(FieldDeclaration fieldDeclaration) {
         String setter = CaseUtil.setter(getFieldName(fieldDeclaration));
-        return Lists.newArrayList(clz(fieldDeclaration).getMethods()).stream().anyMatch(m -> m.getName().equals(setter));
+        return Lists.newArrayList(clz(fieldDeclaration).getMethods()).stream().anyMatch(m -> Objects.equals(m.getName().toString(), setter));
     }
 
     public MethodDeclaration setter(FieldDeclaration fieldDeclaration) {

@@ -1,0 +1,31 @@
+/**
+ * Created by ${bp.date} on ${bp.date}.
+ */
+public class ${bp.builderClassName} {
+
+    private ${bp.className} obj;
+
+    private ${bp.builderClassName} () {}
+
+    public static ${bp.builderClassName} newBuilder() {
+        return new ${bp.builderClassName} ();
+    }
+
+    public static ${bp.builderClassName} newBuilder(${bp.className} obj) {
+        ${bp.builderClassName} re = new ${bp.builderClassName} ();
+        re.obj = obj;
+        return re;
+    }
+    <%
+    for(f in bp.fields){
+    %>
+    public ${bp.builderClassName} ${f.setter}(${f.type} a){
+        obj.${f.setter}(a);
+        return this;
+    }
+
+    <%}%>
+    public ${bp.className} build() {
+        return this.obj;
+    }
+}
