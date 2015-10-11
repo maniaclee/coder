@@ -1,4 +1,4 @@
-package psyco.coder.gen;
+package psyco.coder.gen.param;
 
 import java.io.Serializable;
 import java.text.SimpleDateFormat;

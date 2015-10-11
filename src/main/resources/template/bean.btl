@@ -1,19 +1,21 @@
+<% if(bean.pack !=null) {%>
 package ${bean.pack};
 
+<%}%>
 /**
- * Created by ${bean.date} on ${bean.date}.
+ * Created by ${bean.author} on ${bean.date}.
  */
-public class ${bean.name} {
+public class ${bean.className} {
 
      <% for(f in bean.fields){%>
     private ${f.type} ${f.name};
     <%}%>
 
-    public ${bean.name}() {
+    public ${bean.className}() {
     }
 
     <% for(f in bean.fields){%>
-    public ${f.type} {f.getter}() {
+    public ${f.type} ${f.getter}() {
         return this.${f.name};
     }
 
@@ -22,17 +24,12 @@ public class ${bean.name} {
     }
 
     <%}%>
-
-
     @Override
     public String toString() {
-        return "ColumnInfo{" +
-                "columnName='" + columnName + '\'' +
-                ", fieldName='" + fieldName + '\'' +
-                ", dbType='" + dbType + '\'' +
-                ", javaTyp='" + javaTyp + '\'' +
-                ", columnSize=" + columnSize +
-                ", isPrimaryKey=" + isPrimaryKey +
+        return "${bean.className}{" +
+        <% for(f in bean.fields){%>
+                "${f.name}='" + ${f.name} + '\'' +
+         <%}%>
                 '}';
     }
 }
