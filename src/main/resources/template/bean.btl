@@ -1,0 +1,38 @@
+package ${bean.pack};
+
+/**
+ * Created by ${bean.date} on ${bean.date}.
+ */
+public class ${bean.name} {
+
+     <% for(f in bean.fields){%>
+    private ${f.type} ${f.name};
+    <%}%>
+
+    public ${bean.name}() {
+    }
+
+    <% for(f in bean.fields){%>
+    public ${f.type} {f.getter}() {
+        return this.${f.name};
+    }
+
+    public void ${f.setter}(${f.type} ${f.name}) {
+        this.${f.name} = ${f.name};
+    }
+
+    <%}%>
+
+
+    @Override
+    public String toString() {
+        return "ColumnInfo{" +
+                "columnName='" + columnName + '\'' +
+                ", fieldName='" + fieldName + '\'' +
+                ", dbType='" + dbType + '\'' +
+                ", javaTyp='" + javaTyp + '\'' +
+                ", columnSize=" + columnSize +
+                ", isPrimaryKey=" + isPrimaryKey +
+                '}';
+    }
+}

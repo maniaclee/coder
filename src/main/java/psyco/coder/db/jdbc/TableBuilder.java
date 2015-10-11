@@ -2,10 +2,11 @@ package psyco.coder.db.jdbc;
 
 
 import com.google.common.base.CaseFormat;
+import com.google.common.collect.ImmutableMap;
+import org.apache.commons.lang3.StringUtils;
+import org.junit.Test;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -14,39 +15,40 @@ import java.util.stream.Collectors;
  * Created by peng on 15/10/11.
  */
 public class TableBuilder {
-    public static Map<String, String> typeMap = new HashMap() {{
-        put("VARCHAR", "String");
-        put("CHAR", "String");
-        put("LONGVARCHAR", "String");
-        put("BIT", "Boolean");
-        put("NUMERIC", "java.math.BigDecimal");
-        put("TINYINT", "Byte");
-        put("SMALLINT", "Short");
-        put("INTEGER", "Int");
-        put("BIGINT", "Long");
-        put("REAL", "Float");
-        put("FLOAT", "Float");
-        put("DOUBLE", "Double");
-        put("VARBINARY", "byte[]");
-        put("BINARY", "byte[]");
-        put("DATE", "java.sql.Date");
-        put("TIME", "java.sql.Time");
-        put("TIMESTAMP", "java.sql.Timestamp");
-        put("CLOB", "java.sql.Clob");
-        put("BLOB", "java.sql.Blob");
-        put("ARRAY", "java.sql.Array");
-        put("REF", "java.sql.Ref");
-        put("STRUCT", "java.sql.Struct");
-        put("INT", "Integer");
-        put("DATETIME", "Date");
-    }};
+
+    public static ImmutableMap<String, String> typeMap = ImmutableMap.<String, String>builder()
+            .put("VARCHAR", "String")
+            .put("CHAR", "String")
+            .put("LONGVARCHAR", "String")
+            .put("BIT", "Boolean")
+            .put("NUMERIC", "java.math.BigDecimal")
+            .put("TINYINT", "Byte")
+            .put("SMALLINT", "Short")
+            .put("INTEGER", "Int")
+            .put("BIGINT", "Long")
+            .put("REAL", "Float")
+            .put("FLOAT", "Float")
+            .put("DOUBLE", "Double")
+            .put("VARBINARY", "byte[]")
+            .put("BINARY", "byte[]")
+            .put("DATE", "java.sql.Date")
+            .put("TIME", "java.sql.Time")
+            .put("TIMESTAMP", "java.sql.Timestamp")
+            .put("CLOB", "java.sql.Clob")
+            .put("BLOB", "java.sql.Blob")
+            .put("ARRAY", "java.sql.Array")
+            .put("REF", "java.sql.Ref")
+            .put("STRUCT", "java.sql.Struct")
+            .put("INT", "Integer")
+            .put("DATETIME", "Date")
+            .build();
 
     public static String getJavaType(String jdbcType) {
         /** filter "INT UNSIGNED" => "INT" */
         Matcher m = Pattern.compile("^(\\S+)\\s*").matcher(jdbcType);
         if (m.find())
             jdbcType = typeMap.get(m.group(1));
-        if (jdbcType == null)
+        if (StringUtils.isBlank(jdbcType))
             throw new RuntimeException("Unknown type for:" + jdbcType);
         return jdbcType;
     }
@@ -68,5 +70,11 @@ public class TableBuilder {
                                     return new ColumnInfo(columnName, fieldName, columnType, columnJavaType, columnSize, isPrimaryKey);
                                 }).collect(Collectors.toList())))
                 .collect(Collectors.toList());
+    }
+
+    @Test
+    public void sdfs() throws Exception {
+        JDBCInfo jdbc =new JDBCInfo("jdbc:mysql://localhost:3306/test?characterEncoding=UTF-8","root","");
+        System.out.println(fromJDBCInfo(jdbc));
     }
 }

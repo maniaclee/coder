@@ -15,20 +15,20 @@ import java.util.stream.Collectors;
 public class JDBCInfo {
 
 
-    private String DB_URL;
-    private String DB_USER;
-    private String DB_PASSWORD;
+    private String dbUrl;
+    private String dbUser;
+    private String dbPassword;
     public Connection connection;
     public DatabaseMetaData databaseMetaData;
 
     public JDBCInfo(String DB_URL, String DB_USER, String DB_PASSWORD) {
-        this.DB_URL = DB_URL;
-        this.DB_USER = DB_USER;
-        this.DB_PASSWORD = DB_PASSWORD;
+        this.dbUrl = DB_URL;
+        this.dbUser = DB_USER;
+        this.dbPassword = DB_PASSWORD;
     }
 
     public void init() throws Exception {
-        connection = getConnection(DB_URL, DB_USER, DB_PASSWORD);
+        connection = getConnection(dbUrl, dbUser, dbPassword);
         databaseMetaData = connection.getMetaData();
     }
 
@@ -78,7 +78,6 @@ public class JDBCInfo {
         return getTablesNames().stream().collect(Collectors.toMap((String t) -> t, (String e) -> getTable(e)));
     }
 
-    @Deprecated
     public void close() {
         if (connection != null) {
             try {
@@ -92,9 +91,7 @@ public class JDBCInfo {
     @Override
     protected void finalize() throws Throwable {
         System.out.println("close jdbc connection ....");
-        if (connection != null) {
-            connection.close();
-        }
+        close();
         super.finalize();
     }
 

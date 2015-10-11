@@ -21,4 +21,63 @@ public class ColumnInfo {
         this.isPrimaryKey = isPrimaryKey;
     }
 
+    public String getColumnName() {
+        return columnName;
+    }
+
+    public void setColumnName(String columnName) {
+        this.columnName = columnName;
+    }
+
+    public String getFieldName() {
+        return fieldName;
+    }
+
+    public void setFieldName(String fieldName) {
+        this.fieldName = fieldName;
+    }
+
+    public String getDbType() {
+        return dbType;
+    }
+
+    public void setDbType(String dbType) {
+        this.dbType = dbType;
+    }
+
+    public String getJavaTyp() {
+        return javaTyp;
+    }
+
+    public void setJavaTyp(String javaTyp) {
+        this.javaTyp = javaTyp;
+    }
+
+    public int getColumnSize() {
+        return columnSize;
+    }
+
+    public void setColumnSize(int columnSize) {
+        this.columnSize = columnSize;
+    }
+
+    public boolean isPrimaryKey() {
+        return isPrimaryKey;
+    }
+
+    public void setIsPrimaryKey(boolean isPrimaryKey) {
+        this.isPrimaryKey = isPrimaryKey;
+    }
+
+    @Override
+    public String toString() {
+        return "ColumnInfo{" +
+                "columnName='" + columnName + '\'' +
+                ", fieldName='" + fieldName + '\'' +
+                ", dbType='" + dbType + '\'' +
+                ", javaTyp='" + javaTyp + '\'' +
+                ", columnSize=" + columnSize +
+                ", isPrimaryKey=" + isPrimaryKey +
+                '}';
+    }
 }
