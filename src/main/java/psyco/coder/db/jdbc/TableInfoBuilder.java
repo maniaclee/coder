@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
 /**
  * Created by peng on 15/10/11.
  */
-public class TableBuilder {
+public class TableInfoBuilder {
 
     public static ImmutableMap<String, String> typeMap = ImmutableMap.<String, String>builder()
             .put("VARCHAR", "String")
@@ -59,7 +59,6 @@ public class TableBuilder {
         return jdbc.getTables().entrySet().stream().map(en ->
                 new TableInfo(
                         en.getKey(),
-                        CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL, en.getKey()),
                         en.getValue().stream()
                                 .map(col -> {
                                     String columnName = col.get(0);

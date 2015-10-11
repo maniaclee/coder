@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="${table.className}">
+    <resultMap id="resultMap" type="${table.pack}.${table.className}">
+        <%for(col in table.columns){%>
+        <result column="${col.columnName}" property="${col.fieldName}"/>
+        <%}%>
+    </resultMap>
+
+    <sql id="selectAllColumns">
+        ${psyco.join(table.columns,",")}
+    </sql>
+
+    <sql id="setAllColumns">
+        <set>
+        <%for(col in table.columns){%>
+            <if test="${col.columnName} #!= null">  ${col.columnName} = #{${col.fieldName}},</if>
+        <%}%>
+        </set>
+    </sql>
+
+    <select id="getById" resultMap="resultMap">
+        select
+        <include refid="selectAllColumns"/>
+        from ${table.name}
+        where ${table.primaryKey.columnName} = #{${table.primaryKey.fieldName}}
+    </select>
+    <select id="getByIds" resultMap="resultMap">
+        select
+        <include refid="selectAllColumns"/>
+        from ${table.className}
+        <where>
+            <if test="ids != null">
+                and ${table.primaryKey.columnName} in
+                <foreach item="item" index="index" collection="ids" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+        </where>
+        order by ${table.primaryKey.columnName} desc
+    </select>
+
+    <update id="updateConsultOrder" parameterType="com.pajk.trademanage.dal.model.ConsultOrder">
+        update
+        ${table.className}
+        <include refid="setAllColumns"/>
+        where
+            ${table.primaryKey.columnName} = #{${table.primaryKey.fieldName}}
+    </update>
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="${table.primaryKey.columnName}" parameterType="${table.className}">
+        insert into ${table.name}
+        <include refid="setAllColumns"/>
+    </insert>
+
+    <delete id="delete">
+        delete
+        from
+        ${table.className}
+        where
+            ${table.primaryKey.columnName} = #{${table.primaryKey.fieldName}}
+    </delete>
+</mapper>

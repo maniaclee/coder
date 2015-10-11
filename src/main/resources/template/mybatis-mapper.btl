@@ -1,0 +1,18 @@
+package ${mapperPackage};
+
+import java.util.List;
+import ${table.pack};
+
+public interface ${table.className}Mapper{
+
+    public ${table.className} getById(${table.primaryKey.javaTyp} id);
+
+    public List<${table.className}> getByIds(List<${table.primaryKey.javaTyp}> ids);
+
+    public void insert(${table.className} ${table.classNameLower});
+
+    public void update(${table.className} ${table.classNameLower});
+
+    public void delete(${table.primaryKey.javaTyp} id);
+
+}

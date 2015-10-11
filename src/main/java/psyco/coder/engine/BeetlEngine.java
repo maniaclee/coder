@@ -43,6 +43,7 @@ public class BeetlEngine {
         ClasspathResourceLoader resourceLoader = new ClasspathResourceLoader();
         Configuration cfg = Configuration.defaultConfiguration();
         GroupTemplate gt = new GroupTemplate(resourceLoader, cfg);
+        gt.registerFunctionPackage("psyco", BeetlFunctions.class);
         return gt.getTemplate(template);
     }
 
