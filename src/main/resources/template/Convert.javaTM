@@ -1,6 +1,0 @@
-@args List<org.eclipse.jdt.core.dom.FieldDeclaration>  fs , String clzName , String desClzName
-
-    public desClzName @builderName create(@desClzName desClzName) {
-        @desClzName re = new @desClzName ();
-        return re;
-    }
