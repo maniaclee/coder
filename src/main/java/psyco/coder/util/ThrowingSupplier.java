@@ -1,4 +1,4 @@
-package psyco.coder.ast.util;
+package psyco.coder.util;
 
 import java.util.function.Supplier;
 

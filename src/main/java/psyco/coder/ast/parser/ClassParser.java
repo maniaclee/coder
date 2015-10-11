@@ -4,7 +4,7 @@ import com.google.common.collect.Lists;
 import org.apache.commons.io.IOUtils;
 import org.eclipse.jdt.core.dom.*;
 import org.junit.Test;
-import psyco.coder.ast.util.CaseUtil;
+import psyco.coder.util.CaseUtil;
 import psyco.coder.bean.BeanClass;
 import psyco.coder.bean.BeanField;
 

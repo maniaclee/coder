@@ -1,4 +1,4 @@
-package psyco.coder.ast.util;
+package psyco.coder.util;
 
 import psyco.coder.ast.core.WebResponse;
 

@@ -1,6 +1,6 @@
 package psyco.coder.gen;
 
-import psyco.coder.ast.util.CaseUtil;
+import psyco.coder.util.CaseUtil;
 import psyco.coder.db.jdbc.TableInfo;
 import psyco.coder.bean.BeanClass;
 import psyco.coder.bean.BeanField;

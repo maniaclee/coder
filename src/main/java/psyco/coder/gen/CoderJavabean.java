@@ -2,7 +2,7 @@ package psyco.coder.gen;
 
 import org.eclipse.jdt.core.dom.TypeDeclaration;
 import psyco.coder.ast.parser.ClassParser;
-import psyco.coder.ast.util.CaseUtil;
+import psyco.coder.util.CaseUtil;
 import psyco.coder.engine.BeetlEngine;
 import psyco.coder.bean.BeanClass;
 import psyco.coder.bean.BeanField;
