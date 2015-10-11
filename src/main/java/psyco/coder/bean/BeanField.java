@@ -1,17 +1,17 @@
-package psyco.coder.gen.param;
+package psyco.coder.bean;
 
 import java.io.Serializable;
 
-public class ParamField implements Serializable{
+public class BeanField implements Serializable{
     public String name;
     public String setter;
     public String getter;
     public String type;
 
-    public ParamField() {
+    public BeanField() {
     }
 
-    public ParamField(String name, String setter, String getter, String type) {
+    public BeanField(String name, String setter, String getter, String type) {
         this.name = name;
         this.setter = setter;
         this.getter = getter;
@@ -52,7 +52,7 @@ public class ParamField implements Serializable{
 
     @Override
     public String toString() {
-        return "ParamField{" +
+        return "BeanField{" +
                 "name='" + name + '\'' +
                 ", setter='" + setter + '\'' +
                 ", getter='" + getter + '\'' +

@@ -1,4 +1,4 @@
-package psyco.coder.gen.param;
+package psyco.coder.bean;
 
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
@@ -7,7 +7,7 @@ import java.util.Date;
 /**
  * Created by peng on 15/10/11.
  */
-public class ParamBase implements Serializable {
+public class BeanBase implements Serializable {
 
     public static SimpleDateFormat sdf = new SimpleDateFormat("yyyy/mm/dd-hh:MM:ss");
     private String author = "Unknown";

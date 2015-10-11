@@ -1,25 +1,25 @@
-package psyco.coder.gen.param;
+package psyco.coder.bean;
 
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.List;
 
-public class ParamClass extends ParamBase {
+public class BeanClass extends BeanBase {
     public String className;
-    public List<ParamField> fields;
+    public List<BeanField> fields;
     public String pack;
     public String classNameLowerCase;
 
-    public ParamClass() {
+    public BeanClass() {
     }
 
-    public ParamClass(String className, List<ParamField> fields) {
+    public BeanClass(String className, List<BeanField> fields) {
         this.className = className;
         this.fields = fields;
         this.classNameLowerCase = StringUtils.uncapitalize(className);
     }
 
-    public ParamClass(String className, String pack, List<ParamField> fields) {
+    public BeanClass(String className, String pack, List<BeanField> fields) {
         this(className, fields);
         this.pack = pack;
     }
@@ -32,11 +32,11 @@ public class ParamClass extends ParamBase {
         this.className = className;
     }
 
-    public List<ParamField> getFields() {
+    public List<BeanField> getFields() {
         return fields;
     }
 
-    public void setFields(List<ParamField> fields) {
+    public void setFields(List<BeanField> fields) {
         this.fields = fields;
     }
 

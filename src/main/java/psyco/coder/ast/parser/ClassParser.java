@@ -5,6 +5,8 @@ import org.apache.commons.io.IOUtils;
 import org.eclipse.jdt.core.dom.*;
 import org.junit.Test;
 import psyco.coder.ast.util.CaseUtil;
+import psyco.coder.bean.BeanClass;
+import psyco.coder.bean.BeanField;
 
 import java.io.File;
 import java.io.FileReader;
@@ -80,6 +82,43 @@ public class ClassParser {
 
     public static String getFieldName(FieldDeclaration fieldDeclaration) {
         return ((VariableDeclarationFragment) fieldDeclaration.fragments().get(0)).getName().getFullyQualifiedName();
+    }
+
+
+    public static BeanClass extractClass(String src) throws Exception {
+        List<BeanClass> classes = extractClasses(src);
+        return classes.isEmpty() ? null : classes.get(0);
+    }
+
+    public static List<BeanClass> extractClasses(String src) throws Exception {
+        ClassParser parser;
+        try {
+            parser = parse(src);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new JavaSrcParsingException("Failed to parse src :" + src);
+        }
+        return parser.classes().stream().map(clz -> {
+                    BeanClass bean = new BeanClass();
+                    bean.setClassName(clz.getName().toString());
+                    bean.setFields(Lists.newArrayList(clz.getFields()).stream().map(f -> {
+                                BeanField field = new BeanField();
+                                field.setName(getFieldName(f));
+                                field.setType(f.getType().toString());
+                                field.setGetter(CaseUtil.getter(field.getName()));
+                                field.setSetter(CaseUtil.setter(field.getName()));
+                                return field;
+                            }
+                    ).collect(Collectors.toList()));
+                    return bean;
+                }
+        ).collect(Collectors.toList());
+    }
+
+    public static class JavaSrcParsingException extends Exception {
+        public JavaSrcParsingException(String message) {
+            super(message);
+        }
     }
 
 

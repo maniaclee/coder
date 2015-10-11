@@ -2,8 +2,8 @@ package psyco.coder.gen;
 
 import psyco.coder.ast.util.CaseUtil;
 import psyco.coder.db.jdbc.TableInfo;
-import psyco.coder.gen.param.ParamClass;
-import psyco.coder.gen.param.ParamField;
+import psyco.coder.bean.BeanClass;
+import psyco.coder.bean.BeanField;
 
 import java.util.stream.Collectors;
 
@@ -12,11 +12,11 @@ import java.util.stream.Collectors;
  */
 public class CoderJdbcTableBean {
 
-    public static ParamClass tableInfo(TableInfo tableInfo) {
-        return new ParamClass(
+    public static BeanClass tableInfo(TableInfo tableInfo) {
+        return new BeanClass(
                 tableInfo.getClassName(),
                 tableInfo.getColumns().stream().map(col ->
-                        new ParamField(
+                        new BeanField(
                                 col.getColumnName(),
                                 CaseUtil.getter(col.getColumnName()),
                                 CaseUtil.setter(col.getColumnName()),
