@@ -5,6 +5,7 @@ import com.google.common.base.CaseFormat;
 import com.google.common.collect.ImmutableMap;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.Test;
+import psyco.coder.gen.CoderJdbcTableBean;
 
 import java.util.List;
 import java.util.regex.Matcher;
@@ -74,7 +75,13 @@ public class TableBuilder {
 
     @Test
     public void sdfs() throws Exception {
-        JDBCInfo jdbc =new JDBCInfo("jdbc:mysql://localhost:3306/test?characterEncoding=UTF-8","root","");
-        System.out.println(fromJDBCInfo(jdbc));
+        JDBCInfo jdbc = new JDBCInfo("jdbc:mysql://localhost:3306/test?characterEncoding=UTF-8", "root", "");
+        fromJDBCInfo(jdbc).forEach(tableInfo -> {
+            try {
+                System.out.println(CoderJdbcTableBean.exec(tableInfo, ""));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
     }
 }

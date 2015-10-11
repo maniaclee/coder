@@ -19,8 +19,8 @@ public class ${bp.builderClassName} {
     <%
     for(f in bp.fields){
     %>
-    public ${bp.builderClassName} ${f.setter}(${f.type} a){
-        obj.${f.setter}(a);
+    public ${bp.builderClassName} ${f.setter}(${f.type} ${f.name}){
+        obj.${f.setter}(${f.name});
         return this;
     }
 
