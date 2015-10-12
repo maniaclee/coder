@@ -43,7 +43,6 @@ public class TestTemplate {
         tableInfos().forEach(tableInfo -> {
             try {
                 tableInfo.setPack("psyco.mybatis");
-//                System.out.println(CoderMybatis.mapper(tableInfo,"psyco.mapper"));
                 System.out.println(CoderMybatis.xml(tableInfo));
             } catch (IOException e) {
                 e.printStackTrace();
