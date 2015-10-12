@@ -50,4 +50,19 @@ public class TestTemplate {
             }
         });
     }
+    @Test
+    public void mybatisProject() throws Exception {
+        CoderMybatis.MybatisProjectConfig config = new CoderMybatis.MybatisProjectConfig();
+            config.setEntityDir("/Users/peng/workspace/github/coder-bot/coder-bot-core/src/main/java/psyco/codebot/dao/entity");
+            config.setXmlDir("/Users/peng/workspace/github/coder-bot/coder-bot-core/src/main/java/psyco/codebot/dao/entity");
+        tableInfos().forEach(tableInfo -> {
+            try {
+                tableInfo.setPack("psyco.mybatis");
+//                System.out.println(CoderMybatis.mapper(tableInfo,"psyco.mapper"));
+                System.out.println(CoderMybatis.xml(tableInfo));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
+    }
 }

@@ -50,6 +50,7 @@ public class CoderMybatis {
                 IOUtils.write(mapper(tableInfo, config.mapperPackage), new FileWriter(mapper));
                 IOUtils.write(CoderJdbcTableBean.exec(tableInfo, config.mapperPackage), new FileWriter(entity));
                 IOUtils.write(xml(tableInfo), new FileWriter(xml));
+                logger.info("finish project:%s",config);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -111,6 +112,18 @@ public class CoderMybatis {
 
         public void setXmlDir(String xmlDir) {
             this.xmlDir = xmlDir;
+        }
+
+        @Override
+        public String toString() {
+            return "MybatisProjectConfig{" +
+                    "entityPackage='" + entityPackage + '\'' +
+                    ", entityDir='" + entityDir + '\'' +
+                    ", mapperPackage='" + mapperPackage + '\'' +
+                    ", mapperDir='" + mapperDir + '\'' +
+                    ", xmlDir='" + xmlDir + '\'' +
+                    ", jdbcInfo=" + jdbcInfo +
+                    '}';
         }
     }
 }
