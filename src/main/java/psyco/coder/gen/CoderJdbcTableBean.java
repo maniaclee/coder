@@ -21,10 +21,12 @@ public class CoderJdbcTableBean {
                                 CaseUtil.getter(col.getColumnName()),
                                 CaseUtil.setter(col.getColumnName()),
                                 col.getJavaTyp()
-                        )).collect(Collectors.toList()));
+                        )).collect(Collectors.toList()),
+                tableInfo.getPack())
+                .withAuthor(tableInfo.getAuthor());
     }
 
-    public static String exec(TableInfo tableInfo, String pack) throws Exception {
-        return CoderJavabean.exec(tableInfo(tableInfo), pack);
+    public static String exec(TableInfo tableInfo) throws Exception {
+        return CoderJavabean.exec(tableInfo(tableInfo));
     }
 }

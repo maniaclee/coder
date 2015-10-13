@@ -11,7 +11,7 @@ import java.util.List;
  */
 public class CoderBuilder {
     public static BeanClass builder(String s, String pack) throws Exception {
-        BuilderParam b = (BuilderParam) CoderJavabean.bean(s, pack, BuilderParam.class);
+        BuilderParam b = (BuilderParam) CoderJavabean.bean(s,BuilderParam.class);
         b.setBuilderClassName(b.getClassName() + "Builder");
         return b;
     }
@@ -20,7 +20,7 @@ public class CoderBuilder {
         public String builderClassName;
 
         public BuilderParam(String className, String pack, List<BeanField> fields) {
-            super(className, pack, fields);
+            super(className,  fields);
         }
 
         public String getBuilderClassName() {

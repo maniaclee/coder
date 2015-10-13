@@ -53,8 +53,15 @@ public class TestTemplate {
     @Test
     public void mybatisProject() throws Exception {
         CoderMybatis.MybatisProjectConfig config = new CoderMybatis.MybatisProjectConfig();
-        config.setEntityDir("/Users/peng/workspace/github/coder-bot/coder-bot-core/src/main/java/psyco/codebot/dao/entity");
-        config.setXmlDir("/Users/peng/workspace/github/coder-bot/coder-bot-core/src/main/java/psyco/codebot/dao/entity");
+        config.setAuthor("psyco");
+        config.setJdbcInfo(jdbc);
+        config.setEntityDir("/Users/peng/workspace/github/coder-bot/coder-bot-web/src/main/java/psyco/coderbot/dao/entity");
+        config.setEntityPackage("psyco.coderbot.dao.entity");
+
+        config.setMapperPackage("psyco.coderbot.dao.mapper");
+        config.setMapperDir("/Users/peng/workspace/github/coder-bot/coder-bot-web/src/main/java/psyco/coderbot/dao/mapper");
+
+        config.setXmlDir("/Users/peng/workspace/github/coder-bot/coder-bot-web/src/main/resources/config/sql");
         CoderMybatis.mybatisProject(config);
     }
 }

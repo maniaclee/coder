@@ -77,7 +77,7 @@ public class TableInfoBuilder {
         JDBCInfo jdbc = new JDBCInfo("jdbc:mysql://localhost:3306/test?characterEncoding=UTF-8", "root", "");
         fromJDBCInfo(jdbc).forEach(tableInfo -> {
             try {
-                System.out.println(CoderJdbcTableBean.exec(tableInfo, ""));
+                System.out.println(CoderJdbcTableBean.exec(tableInfo));
             } catch (Exception e) {
                 e.printStackTrace();
             }

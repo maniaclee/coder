@@ -19,11 +19,15 @@ public class BeanClass extends BeanBase {
         this.classNameLowerCase = StringUtils.uncapitalize(className);
     }
 
-    public BeanClass(String className, String pack, List<BeanField> fields) {
+    public BeanClass(String className, List<BeanField> fields, String pack) {
         this(className, fields);
         this.pack = pack;
     }
 
+    public BeanClass  withAuthor(String author){
+        setAuthor(author);
+        return this;
+    }
     public String getClassName() {
         return className;
     }

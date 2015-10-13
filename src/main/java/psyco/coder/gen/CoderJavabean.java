@@ -15,15 +15,15 @@ import java.util.stream.Collectors;
  */
 public class CoderJavabean {
 
-    public static BeanClass bean(String s, String pack) throws Exception {
-        return bean(s, pack, BeanClass.class);
+    public static BeanClass bean(String s) throws Exception {
+        return bean(s, BeanClass.class);
     }
 
-    public static BeanClass bean(String s, String pack, Class<? extends BeanClass> paramClass) throws Exception {
+    public static BeanClass bean(String s, Class<? extends BeanClass> paramClass) throws Exception {
         ClassParser ast = ClassParser.parse(s);
         TypeDeclaration clz = ast.findClass();
-        return paramClass.getConstructor(String.class, String.class, List.class)
-                .newInstance(clz.getName().toString(), pack,
+        return paramClass.getConstructor(String.class, List.class)
+                .newInstance(clz.getName().toString(),
                         ast.fields(clz).stream().map(f -> {
                                     String fn = ClassParser.getFieldName(f);
                                     return new BeanField(fn, CaseUtil.setter(fn), CaseUtil.getter(fn), f.getType().toString());
@@ -31,11 +31,11 @@ public class CoderJavabean {
                         ).collect(Collectors.toList()));
     }
 
-    public static String exec(String s, String pack) throws Exception {
-        return exec(bean(s, pack), pack);
+    public static String exec(String s) throws Exception {
+        return exec(bean(s));
     }
 
-    public static String exec(BeanClass paramClass, String pack) throws Exception {
+    public static String exec(BeanClass paramClass) throws Exception {
         return BeetlEngine.render("/template/bean.btl", "bean", paramClass);
     }
 

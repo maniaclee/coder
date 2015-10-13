@@ -16,6 +16,7 @@ public class TableInfo {
     String className;
     String classNameLower;
     String pack;
+    String author;
 
     public TableInfo(String name, List<ColumnInfo> columns) {
         this.name = name;
@@ -71,6 +72,14 @@ public class TableInfo {
 
     public void setPack(String pack) {
         this.pack = pack;
+    }
+
+    public String getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
     }
 
     @Override
