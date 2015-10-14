@@ -8,15 +8,15 @@ public class ColumnInfo {
     String columnName;
     String fieldName;
     String dbType;
-    String javaTyp;
+    String javaType;
     int columnSize;
     boolean isPrimaryKey;
 
-    public ColumnInfo(String columnName, String fieldName, String dbType, String javaTyp, int columnSize, boolean isPrimaryKey) {
+    public ColumnInfo(String columnName, String fieldName, String dbType, String javaType, int columnSize, boolean isPrimaryKey) {
         this.columnName = columnName;
         this.fieldName = fieldName;
         this.dbType = dbType;
-        this.javaTyp = javaTyp;
+        this.javaType = javaType;
         this.columnSize = columnSize;
         this.isPrimaryKey = isPrimaryKey;
     }
@@ -45,12 +45,12 @@ public class ColumnInfo {
         this.dbType = dbType;
     }
 
-    public String getJavaTyp() {
-        return javaTyp;
+    public String getJavaType() {
+        return javaType;
     }
 
-    public void setJavaTyp(String javaTyp) {
-        this.javaTyp = javaTyp;
+    public void setJavaType(String javaType) {
+        this.javaType = javaType;
     }
 
     public int getColumnSize() {
@@ -75,7 +75,7 @@ public class ColumnInfo {
                 "columnName='" + columnName + '\'' +
                 ", fieldName='" + fieldName + '\'' +
                 ", dbType='" + dbType + '\'' +
-                ", javaTyp='" + javaTyp + '\'' +
+                ", javaType='" + javaType + '\'' +
                 ", columnSize=" + columnSize +
                 ", isPrimaryKey=" + isPrimaryKey +
                 '}';

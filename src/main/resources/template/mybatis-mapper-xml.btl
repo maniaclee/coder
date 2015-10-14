@@ -16,7 +16,7 @@
     <sql id="setAllColumns">
         <set>
         <%for(col in table.columns){%>
-            <if test="${col.columnName} != null">  ${col.columnName} = #{${col.fieldName}},</if>
+            <if test="${col.fieldName} != null">  ${col.columnName} = #{${col.fieldName}},</if>
         <%}%>
         </set>
     </sql>
@@ -38,7 +38,7 @@
         ORDER BY ${table.primaryKey.columnName} desc
     </select>
 
-    <update id="update" parameterType="com.pajk.trademanage.dal.model.ConsultOrder">
+    <update id="update" parameterType="${table.pack}.${table.className}">
         UPDATE
         ${table.className}
         <include refid="setAllColumns"/>
@@ -47,8 +47,12 @@
     </update>
 
     <insert id="insert" useGeneratedKeys="true" keyProperty="${table.primaryKey.columnName}" parameterType="${table.className}">
+        <selectKey resultType="${table.primaryKey.javaType}" keyProperty="${table.primaryKey.columnName}" order="AFTER" >
+          SELECT LAST_INSERT_ID() AS id
+        </selectKey>
         INSERT INTO ${table.name}
-        <include refid="setAllColumns"/>
+        (${selectClause})
+        values(${valuesClause})
     </insert>
 
     <delete id="delete">

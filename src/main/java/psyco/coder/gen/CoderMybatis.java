@@ -39,8 +39,9 @@ public class CoderMybatis implements Serializable {
                 .put("config", config)
                 .build());
     }
+
     public String entity(TableInfo beanClass) throws Exception {
-       return  CoderJdbcTableBean.exec(beanClass);
+        return CoderJdbcTableBean.exec(beanClass);
     }
 
 
@@ -49,6 +50,7 @@ public class CoderMybatis implements Serializable {
                 .put("table", beanClass)
                 .put("config", config)
                 .put("selectClause", beanClass.getColumns().stream().map(e -> e.getColumnName()).collect(Collectors.joining(",")))
+                .put("valuesClause", beanClass.getColumns().stream().map(e -> String.format("#{%s}", e.getFieldName())).collect(Collectors.joining(",")))
                 .build());
     }
 

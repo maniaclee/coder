@@ -20,7 +20,7 @@ public class CoderJdbcTableBean {
                                 col.getFieldName(),
                                 CaseUtil.getter(col.getFieldName()),
                                 CaseUtil.setter(col.getFieldName()),
-                                col.getJavaTyp()
+                                col.getJavaType()
                         )).collect(Collectors.toList()),
                 tableInfo.getPack())
                 .withAuthor(tableInfo.getAuthor());
