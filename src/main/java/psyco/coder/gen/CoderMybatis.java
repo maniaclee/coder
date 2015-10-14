@@ -13,9 +13,9 @@ import psyco.coder.engine.BeetlEngine;
 
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Created by peng on 15/10/11.
@@ -23,19 +23,33 @@ import java.util.List;
 public class CoderMybatis {
     static Logger logger = LoggerFactory.getLogger(CoderMybatis.class);
 
-    public static String mapper(TableInfo beanClass) throws IOException {
-        return BeetlEngine.render("/template/mybatis-mapper.btl", "table", beanClass);
+
+    private MybatisProjectConfig config;
+
+    public static CoderMybatis instance(MybatisProjectConfig config) {
+        CoderMybatis re = new CoderMybatis();
+        re.config = config;
+        return re;
     }
 
-    public static String xml(TableInfo beanClass) throws IOException {
-        return BeetlEngine.render("/template/mybatis-mapper-xml.btl", new ImmutableMap.Builder<String, Object>()
+    public String mapper(TableInfo beanClass) throws IOException {
+        return BeetlEngine.render("/template/mybatis-mapper.btl", new ImmutableMap.Builder<String, Object>()
                 .put("table", beanClass)
+                .put("config", config)
+                .put("select", beanClass.getColumns().stream().map(e -> e.getColumnName()).collect(Collectors.joining(",")))
                 .build());
     }
 
-    public static void mybatisProject(MybatisProjectConfig config) throws Exception {
-        Preconditions.checkArgument(StringUtils.isNotBlank(config.getEntityPackage()),"Missing entity package");
-        Preconditions.checkArgument(StringUtils.isNotBlank(config.getMapperPackage()),"Missing mapper package");
+    public String xml(TableInfo beanClass) throws IOException {
+        return BeetlEngine.render("/template/mybatis-mapper-xml.btl", new ImmutableMap.Builder<String, Object>()
+                .put("table", beanClass)
+                .put("config", config)
+                .build());
+    }
+
+    public void mybatisProject(MybatisProjectConfig config) throws Exception {
+        Preconditions.checkArgument(StringUtils.isNotBlank(config.getEntityPackage()), "Missing entity package");
+        Preconditions.checkArgument(StringUtils.isNotBlank(config.getMapperPackage()), "Missing mapper package");
 
         List<TableInfo> tables = TableInfoBuilder.fromJDBCInfo(config.getJdbcInfo());
         File entityDir = new File(config.entityDir);
@@ -50,17 +64,20 @@ public class CoderMybatis {
                 File mapper = new File(mapperDir, tableInfo.getClassName() + "Mapper.java");
                 File entity = new File(entityDir, tableInfo.getClassName() + ".java");
                 File xml = new File(xmlDir, tableInfo.getClassName() + "Mapper.xml");
-                if (mapper.exists() || entity.exists() || xml.exists()) {
+                if (!config.isOverwrite() && (mapper.exists() || entity.exists() || xml.exists())) {
                     logger.warn("Skip table:%s", tableInfo.getName());
                     continue;
                 }
-                IOUtils.write(mapper(tableInfo), new FileOutputStream(mapper));
-                IOUtils.write(CoderJdbcTableBean.exec(tableInfo), new FileOutputStream(entity));
-                IOUtils.write(xml(tableInfo), new FileWriter(xml));
-                logger.info("finish project:%s",config);
+//                IOUtils.write(mapper(tableInfo), new FileOutputStream(mapper));
+//                logger.info("write mapper:%s", mapper.getAbsolutePath());
+//                IOUtils.write(CoderJdbcTableBean.exec(tableInfo), new FileOutputStream(entity));
+//                logger.info("write entity:%s", entity.getAbsolutePath());
+                IOUtils.write(xml(tableInfo), new FileOutputStream(xml));
+                logger.info("write xml:%s", xml.getAbsolutePath());
             } catch (IOException e) {
                 e.printStackTrace();
             }
+            logger.info("finish project:%s", config);
         }
     }
 
@@ -73,6 +90,15 @@ public class CoderMybatis {
         String xmlDir;
         JDBCInfo jdbcInfo;
         String author;
+        boolean overwrite = false;
+
+        public boolean isOverwrite() {
+            return overwrite;
+        }
+
+        public void setOverwrite(boolean overwrite) {
+            this.overwrite = overwrite;
+        }
 
         public JDBCInfo getJdbcInfo() {
             return jdbcInfo;

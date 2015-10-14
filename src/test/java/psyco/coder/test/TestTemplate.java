@@ -7,7 +7,6 @@ import psyco.coder.db.jdbc.TableInfoBuilder;
 import psyco.coder.gen.CoderBuilder;
 import psyco.coder.gen.CoderMybatis;
 
-import java.io.IOException;
 import java.util.List;
 
 /**
@@ -35,31 +34,34 @@ public class TestTemplate {
         System.out.println(CoderBuilder.exec(s, ""));
     }
 
-    @Test
-    public void mybatis() throws Exception {
-//        System.out.println(CoderJavabean.exec(s, ""));
-        tableInfos().forEach(tableInfo -> {
-            try {
-                tableInfo.setPack("psyco.mybatis");
-                System.out.println(CoderMybatis.xml(tableInfo));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        });
-    }
+//    @Test
+//    public void mybatis() throws Exception {
+////        System.out.println(CoderJavabean.exec(s, ""));
+//        tableInfos().forEach(tableInfo -> {
+//            try {
+//                tableInfo.setPack("psyco.mybatis");
+//                System.out.println(CoderMybatis.xml(tableInfo));
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//        });
+//    }
 
     @Test
     public void mybatisProject() throws Exception {
         CoderMybatis.MybatisProjectConfig config = new CoderMybatis.MybatisProjectConfig();
+        config.setOverwrite(true);
         config.setAuthor("psyco");
         config.setJdbcInfo(jdbc);
         config.setEntityDir("/Users/peng/workspace/github/user-center/user-center-biz/src/main/java/psyco/user/center/dal/entity");
-        config.setEntityPackage("psyco.coderbot.dao.entity");
+        config.setEntityPackage("psyco.user.center.dal.entity");
 
-        config.setMapperPackage("psyco.coderbot.dao.mapper");
+        config.setMapperPackage("psyco.user.center.dal.mapper");
         config.setMapperDir("/Users/peng/workspace/github/user-center/user-center-biz/src/main/java/psyco/user/center/dal/mapper");
 
         config.setXmlDir("/Users/peng/workspace/github/user-center/user-center-biz/src/main/resources/sqlmap");
-        CoderMybatis.mybatisProject(config);
+        CoderMybatis.instance(config).mybatisProject(config);
+        System.out.println(CoderMybatis.instance(config).xml(tableInfos().get(0)));
     }
+
 }
