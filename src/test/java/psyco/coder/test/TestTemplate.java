@@ -60,8 +60,10 @@ public class TestTemplate {
         config.setMapperDir("/Users/peng/workspace/github/user-center/user-center-biz/src/main/java/psyco/user/center/dal/mapper");
 
         config.setXmlDir("/Users/peng/workspace/github/user-center/user-center-biz/src/main/resources/sqlmap");
-        CoderMybatis.instance(config).mybatisProject(config);
+//        CoderMybatis.instance(config).mybatisProject(config);
+
         System.out.println(CoderMybatis.instance(config).xml(tableInfos().get(0)));
+//        System.out.println(CoderMybatis.instance(config).entity(tableInfos().get(0)));
     }
 
 }

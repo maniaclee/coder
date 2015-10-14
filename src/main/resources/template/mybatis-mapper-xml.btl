@@ -9,23 +9,23 @@
 
     <sql id="selectAllColumns">
         SELECT
-        ${select}
+        ${selectClause}
         FROM ${table.className}
     </sql>
 
     <sql id="setAllColumns">
         <set>
         <%for(col in table.columns){%>
-            <if test="${col.columnName} #!= null">  ${col.columnName} = #{${col.fieldName}},</if>
+            <if test="${col.columnName} != null">  ${col.columnName} = #{${col.fieldName}},</if>
         <%}%>
         </set>
     </sql>
 
-    <select id="getById" resultMap="resultMap">
+    <select id="findOne" resultMap="resultMap">
         <include refid="selectAllColumns"/>
         where ${table.primaryKey.columnName} = #{${table.primaryKey.fieldName}}
     </select>
-    <select id="getByIds" resultMap="resultMap">
+    <select id="find" resultMap="resultMap">
         select
         <include refid="selectAllColumns"/>
         from ${table.className}
@@ -40,7 +40,7 @@
         order by ${table.primaryKey.columnName} desc
     </select>
 
-    <update id="updateConsultOrder" parameterType="com.pajk.trademanage.dal.model.ConsultOrder">
+    <update id="update" parameterType="com.pajk.trademanage.dal.model.ConsultOrder">
         update
         ${table.className}
         <include refid="setAllColumns"/>

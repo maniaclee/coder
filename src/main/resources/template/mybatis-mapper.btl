@@ -5,9 +5,9 @@ import ${table.pack}.${table.author};
 
 public interface ${table.className}Mapper{
 
-    public ${table.className} getById(${table.primaryKey.javaTyp} id);
+    public ${table.className} findOne(${table.primaryKey.javaTyp} id);
 
-    public List<${table.className}> getByIds(List<${table.primaryKey.javaTyp}> ids);
+    public List<${table.className}> find(List<${table.primaryKey.javaTyp}> ids);
 
     public void insert(${table.className} ${table.classNameLower});
 

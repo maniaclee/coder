@@ -36,14 +36,18 @@ public class CoderMybatis {
         return BeetlEngine.render("/template/mybatis-mapper.btl", new ImmutableMap.Builder<String, Object>()
                 .put("table", beanClass)
                 .put("config", config)
-                .put("select", beanClass.getColumns().stream().map(e -> e.getColumnName()).collect(Collectors.joining(",")))
                 .build());
     }
+    public String entity(TableInfo beanClass) throws Exception {
+       return  CoderJdbcTableBean.exec(beanClass);
+    }
+
 
     public String xml(TableInfo beanClass) throws IOException {
         return BeetlEngine.render("/template/mybatis-mapper-xml.btl", new ImmutableMap.Builder<String, Object>()
                 .put("table", beanClass)
                 .put("config", config)
+                .put("selectClause", beanClass.getColumns().stream().map(e -> e.getColumnName()).collect(Collectors.joining(",")))
                 .build());
     }
 

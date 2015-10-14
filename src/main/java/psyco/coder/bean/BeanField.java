@@ -11,7 +11,7 @@ public class BeanField implements Serializable{
     public BeanField() {
     }
 
-    public BeanField(String name, String setter, String getter, String type) {
+    public BeanField(String name,  String getter,String setter, String type) {
         this.name = name;
         this.setter = setter;
         this.getter = getter;
