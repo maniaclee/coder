@@ -78,7 +78,7 @@ public class CoderMybatis implements Serializable {
                 }
                 IOUtils.write(mapper(tableInfo), new FileOutputStream(mapper));
                 logger.info("write mapper:%s", mapper.getAbsolutePath());
-                IOUtils.write(CoderJdbcTableBean.exec(tableInfo), new FileOutputStream(entity));
+                IOUtils.write(CoderJavabean.exec(CoderJdbcTableBean.tableInfo(tableInfo),config.getBeanClassParameterExtend()), new FileOutputStream(entity));
                 logger.info("write entity:%s", entity.getAbsolutePath());
                 IOUtils.write(xml(tableInfo), new FileOutputStream(xml));
                 logger.info("write xml:%s", xml.getAbsolutePath());
@@ -99,6 +99,39 @@ public class CoderMybatis implements Serializable {
         JDBCInfo jdbcInfo;
         String author;
         boolean overwrite = false;
+        String dtoPackage;
+        String dtoDir;
+        boolean generateBuilderMethod4bean = false;
+
+        public   CoderJavabean.BeanClassParameterExtend getBeanClassParameterExtend(){
+            CoderJavabean.BeanClassParameterExtend re = new CoderJavabean.BeanClassParameterExtend();
+            re.setDtoPackage(dtoPackage);
+            re.setGenerateBuilderMethod(generateBuilderMethod4bean);
+            return re;
+        }
+        public String getDtoPackage() {
+            return dtoPackage;
+        }
+
+        public void setDtoPackage(String dtoPackage) {
+            this.dtoPackage = dtoPackage;
+        }
+
+        public String getDtoDir() {
+            return dtoDir;
+        }
+
+        public void setDtoDir(String dtoDir) {
+            this.dtoDir = dtoDir;
+        }
+
+        public boolean isGenerateBuilderMethod4bean() {
+            return generateBuilderMethod4bean;
+        }
+
+        public void setGenerateBuilderMethod4bean(boolean generateBuilderMethod4bean) {
+            this.generateBuilderMethod4bean = generateBuilderMethod4bean;
+        }
 
         public boolean isOverwrite() {
             return overwrite;

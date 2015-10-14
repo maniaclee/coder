@@ -28,14 +28,12 @@
     <select id="find" resultMap="resultMap">
         <include refid="selectAllColumns"/>
         <where>
-            <if test="ids != null">
-                and ${table.primaryKey.columnName} in
-                <foreach item="item" index="index" collection="ids" open="(" separator="," close=")">
-                    #{item}
-                </foreach>
-            </if>
+           ${table.primaryKey.columnName} in
+            <foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+                #{item}
+            </foreach>
         </where>
-        ORDER BY ${table.primaryKey.columnName} desc
+        ORDER BY ${table.primaryKey.columnName} asc
     </select>
 
     <update id="update" parameterType="${table.pack}.${table.className}">

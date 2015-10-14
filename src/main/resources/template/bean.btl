@@ -1,12 +1,33 @@
 <% if(bean.pack !=null) {%>
 package ${bean.pack};
-import java.io.Serializable;
 
 <%}%>
+import java.io.Serializable;
+<% if(ext.dtoPackage !=null) {%>
+import ${ext.dtoPackage}.${bean.className}DTO;
+<%}%>
+
 /**
  * Created by ${bean.author} on ${bean.date}.
  */
 public class ${bean.className} implements Serializable{
+
+    <% if(ext.dtoPackage !=null) {%>
+    public  ${bean.className}DTO to(){
+        UserDTO re=new UserDTO();
+        <% for(f in bean.fields){%>
+        re.${f.setter}(${f.getter}());
+            <%}%>
+        return re;
+    }
+    public static ${bean.className} from(${bean.className}DTO ${bean.classNameLowerCase}DTO){
+        ${bean.className} re = new ${bean.className}();
+          <% for(f in bean.fields){%>
+        re.${f.setter}(${bean.classNameLowerCase}DTO.${f.getter}());
+            <%}%>
+        return re;
+    }
+    <%}%>
 
      <% for(f in bean.fields){%>
     private ${f.type} ${f.name};
@@ -24,7 +45,12 @@ public class ${bean.className} implements Serializable{
         this.${f.name} = ${f.name};
     }
 
-    <%}%>
+    <% if(ext.generateBuilderMethod) {for(f in bean.fields){%>
+    public ${bean.className} build${f.name}(${f.type} ${f.name}) {
+        this.${f.name} = ${f.name};
+        return this;
+    }
+    <%}}%>
     @Override
     public String toString() {
         return "${bean.className}{" +
