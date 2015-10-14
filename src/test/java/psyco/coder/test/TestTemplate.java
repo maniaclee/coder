@@ -1,6 +1,5 @@
 package psyco.coder.test;
 
-import org.apache.commons.io.IOUtils;
 import org.junit.Test;
 import psyco.coder.db.jdbc.JDBCInfo;
 import psyco.coder.db.jdbc.TableInfo;
@@ -8,7 +7,6 @@ import psyco.coder.db.jdbc.TableInfoBuilder;
 import psyco.coder.gen.CoderBuilder;
 import psyco.coder.gen.CoderMybatis;
 
-import java.io.FileReader;
 import java.io.IOException;
 import java.util.List;
 
@@ -24,11 +22,11 @@ public class TestTemplate {
     }
 
     static {
-        try {
-            s = IOUtils.toString(new FileReader("/Users/peng/workspace/github/coder/src/main/java/psyco/coder/ast/parser/Shit.java"));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+//        try {
+//            s = IOUtils.toString(new FileReader("/Users/peng/workspace/github/coder/src/main/java/psyco/coder/ast/parser/Shit.java"));
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
     }
 
     @Test
@@ -55,13 +53,13 @@ public class TestTemplate {
         CoderMybatis.MybatisProjectConfig config = new CoderMybatis.MybatisProjectConfig();
         config.setAuthor("psyco");
         config.setJdbcInfo(jdbc);
-        config.setEntityDir("/Users/peng/workspace/github/coder-bot/coder-bot-web/src/main/java/psyco/coderbot/dao/entity");
+        config.setEntityDir("/Users/peng/workspace/github/user-center/user-center-biz/src/main/java/psyco/user/center/dal/entity");
         config.setEntityPackage("psyco.coderbot.dao.entity");
 
         config.setMapperPackage("psyco.coderbot.dao.mapper");
-        config.setMapperDir("/Users/peng/workspace/github/coder-bot/coder-bot-web/src/main/java/psyco/coderbot/dao/mapper");
+        config.setMapperDir("/Users/peng/workspace/github/user-center/user-center-biz/src/main/java/psyco/user/center/dal/mapper");
 
-        config.setXmlDir("/Users/peng/workspace/github/coder-bot/coder-bot-web/src/main/resources/config/sql");
+        config.setXmlDir("/Users/peng/workspace/github/user-center/user-center-biz/src/main/resources/sqlmap");
         CoderMybatis.mybatisProject(config);
     }
 }
