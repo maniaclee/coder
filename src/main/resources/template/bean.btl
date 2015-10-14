@@ -1,11 +1,12 @@
 <% if(bean.pack !=null) {%>
 package ${bean.pack};
+import java.io.Serializable;
 
 <%}%>
 /**
  * Created by ${bean.author} on ${bean.date}.
  */
-public class ${bean.className} {
+public class ${bean.className} implements Serializable{
 
      <% for(f in bean.fields){%>
     private ${f.type} ${f.name};

@@ -65,5 +65,23 @@ public class TestTemplate {
         System.out.println(CoderMybatis.instance(config).xml(tableInfos().get(0)));
 //        System.out.println(CoderMybatis.instance(config).entity(tableInfos().get(0)));
     }
+    @Test
+    public void mybatisProject_home() throws Exception {
+        CoderMybatis.MybatisProjectConfig config = new CoderMybatis.MybatisProjectConfig();
+        config.setOverwrite(true);
+        config.setAuthor("psyco");
+        config.setJdbcInfo(jdbc);
+        config.setEntityDir("/Users/psyco/workspace/github/user-center/user-center-biz/src/main/java/psyco/user/center/dal/entity");
+        config.setEntityPackage("psyco.user.center.dal.entity");
+
+        config.setMapperPackage("psyco.user.center.dal.mapper");
+        config.setMapperDir("/Users/psyco/workspace/github/user-center/user-center-biz/src/main/java/psyco/user/center/dal/mapper");
+
+        config.setXmlDir("/Users/psyco/workspace/github/user-center/user-center-biz/src/main/resources/sqlmap");
+        CoderMybatis.instance(config).mybatisProject(config);
+
+//        System.out.println(CoderMybatis.instance(config).xml(tableInfos().get(0)));
+//        System.out.println(CoderMybatis.instance(config).entity(tableInfos().get(0)));
+    }
 
 }

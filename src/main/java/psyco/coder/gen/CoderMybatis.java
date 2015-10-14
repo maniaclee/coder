@@ -14,13 +14,14 @@ import psyco.coder.engine.BeetlEngine;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.List;
 import java.util.stream.Collectors;
 
 /**
  * Created by peng on 15/10/11.
  */
-public class CoderMybatis {
+public class CoderMybatis implements Serializable {
     static Logger logger = LoggerFactory.getLogger(CoderMybatis.class);
 
 
@@ -51,6 +52,7 @@ public class CoderMybatis {
                 .build());
     }
 
+
     public void mybatisProject(MybatisProjectConfig config) throws Exception {
         Preconditions.checkArgument(StringUtils.isNotBlank(config.getEntityPackage()), "Missing entity package");
         Preconditions.checkArgument(StringUtils.isNotBlank(config.getMapperPackage()), "Missing mapper package");
@@ -72,10 +74,10 @@ public class CoderMybatis {
                     logger.warn("Skip table:%s", tableInfo.getName());
                     continue;
                 }
-//                IOUtils.write(mapper(tableInfo), new FileOutputStream(mapper));
-//                logger.info("write mapper:%s", mapper.getAbsolutePath());
-//                IOUtils.write(CoderJdbcTableBean.exec(tableInfo), new FileOutputStream(entity));
-//                logger.info("write entity:%s", entity.getAbsolutePath());
+                IOUtils.write(mapper(tableInfo), new FileOutputStream(mapper));
+                logger.info("write mapper:%s", mapper.getAbsolutePath());
+                IOUtils.write(CoderJdbcTableBean.exec(tableInfo), new FileOutputStream(entity));
+                logger.info("write entity:%s", entity.getAbsolutePath());
                 IOUtils.write(xml(tableInfo), new FileOutputStream(xml));
                 logger.info("write xml:%s", xml.getAbsolutePath());
             } catch (IOException e) {

@@ -26,9 +26,7 @@
         where ${table.primaryKey.columnName} = #{${table.primaryKey.fieldName}}
     </select>
     <select id="find" resultMap="resultMap">
-        select
         <include refid="selectAllColumns"/>
-        from ${table.className}
         <where>
             <if test="ids != null">
                 and ${table.primaryKey.columnName} in
@@ -37,27 +35,24 @@
                 </foreach>
             </if>
         </where>
-        order by ${table.primaryKey.columnName} desc
+        ORDER BY ${table.primaryKey.columnName} desc
     </select>
 
     <update id="update" parameterType="com.pajk.trademanage.dal.model.ConsultOrder">
-        update
+        UPDATE
         ${table.className}
         <include refid="setAllColumns"/>
-        where
+        WHERE
             ${table.primaryKey.columnName} = #{${table.primaryKey.fieldName}}
     </update>
 
     <insert id="insert" useGeneratedKeys="true" keyProperty="${table.primaryKey.columnName}" parameterType="${table.className}">
-        insert into ${table.name}
+        INSERT INTO ${table.name}
         <include refid="setAllColumns"/>
     </insert>
 
     <delete id="delete">
-        delete
-        from
-        ${table.className}
-        where
-            ${table.primaryKey.columnName} = #{${table.primaryKey.fieldName}}
+        DELETE FROM ${table.className}
+        WHERE ${table.primaryKey.columnName} = #{${table.primaryKey.fieldName}}
     </delete>
 </mapper>

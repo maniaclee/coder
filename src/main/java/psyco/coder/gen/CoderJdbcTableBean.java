@@ -17,9 +17,9 @@ public class CoderJdbcTableBean {
                 tableInfo.getClassName(),
                 tableInfo.getColumns().stream().map(col ->
                         new BeanField(
-                                col.getColumnName(),
-                                CaseUtil.getter(col.getColumnName()),
-                                CaseUtil.setter(col.getColumnName()),
+                                col.getFieldName(),
+                                CaseUtil.getter(col.getFieldName()),
+                                CaseUtil.setter(col.getFieldName()),
                                 col.getJavaTyp()
                         )).collect(Collectors.toList()),
                 tableInfo.getPack())
