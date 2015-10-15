@@ -12,7 +12,7 @@ import java.io.IOException;
 public class CoderDTOBuilder {
 
     public static String exec(BeanClass bean, BeanClass dto, String dtoBuilderPack) throws IOException {
-        return BeetlEngine.render("/template/dtoBuilder.btl", new ImmutableMap.Builder()
+        return BeetlEngine.render("/template/dto-builder.btl", new ImmutableMap.Builder()
                 .put("bean", bean)
                 .put("dto", dto)
                 .put("dtoBuilderPack", dtoBuilderPack)
