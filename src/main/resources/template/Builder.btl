@@ -1,3 +1,7 @@
+<% if(bp.pack !=null) {%>
+package ${bp.pack};
+
+<%}%>
 /**
  * Created by ${bp.date} on ${bp.date}.
  */

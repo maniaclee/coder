@@ -77,6 +77,12 @@ public class TestTemplate {
         config.setMapperPackage("psyco.user.center.dal.mapper");
         config.setMapperDir("/Users/psyco/workspace/github/user-center/user-center-biz/src/main/java/psyco/user/center/dal/mapper");
 
+        config.setDtoDir("/Users/psyco/workspace/github/user-center/user-center-client/src/main/java/psyco/user/center/client/dto");
+        config.setDtoPackage("psyco.user.center.client.dto");
+
+        config.setDtoBuilderDir("/Users/psyco/workspace/github/user-center/user-center-biz/src/main/java/psyco/user/center/dal/convert");
+        config.setDtoBuilderPackage("psyco.user.center.dal.convert");
+
         config.setXmlDir("/Users/psyco/workspace/github/user-center/user-center-biz/src/main/resources/sqlmap");
         CoderMybatis.instance(config).mybatisProject(config);
 

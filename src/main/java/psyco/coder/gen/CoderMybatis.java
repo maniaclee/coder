@@ -6,6 +6,7 @@ import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import psyco.coder.bean.BeanClass;
 import psyco.coder.db.jdbc.JDBCInfo;
 import psyco.coder.db.jdbc.TableInfo;
 import psyco.coder.db.jdbc.TableInfoBuilder;
@@ -58,11 +59,14 @@ public class CoderMybatis implements Serializable {
     public void mybatisProject(MybatisProjectConfig config) throws Exception {
         Preconditions.checkArgument(StringUtils.isNotBlank(config.getEntityPackage()), "Missing entity package");
         Preconditions.checkArgument(StringUtils.isNotBlank(config.getMapperPackage()), "Missing mapper package");
+        Preconditions.checkArgument(StringUtils.isNotBlank(config.getXmlDir()), "Missing mapper xml directory");
 
         List<TableInfo> tables = TableInfoBuilder.fromJDBCInfo(config.getJdbcInfo());
         File entityDir = new File(config.entityDir);
         File mapperDir = new File(config.mapperDir);
         File xmlDir = new File(config.xmlDir);
+        File dtoDir = config.dtoDir == null ? null : new File(config.dtoDir);
+        File dtoBuilderDir = config.dtoBuilderDir == null ? null : new File(config.dtoBuilderDir);
         for (TableInfo tableInfo : tables) {
             try {
                 /** package */
@@ -72,16 +76,36 @@ public class CoderMybatis implements Serializable {
                 File mapper = new File(mapperDir, tableInfo.getClassName() + "Mapper.java");
                 File entity = new File(entityDir, tableInfo.getClassName() + ".java");
                 File xml = new File(xmlDir, tableInfo.getClassName() + "Mapper.xml");
+                File dto = new File(dtoDir, tableInfo.getClassName() + "DTO.java");
                 if (!config.isOverwrite() && (mapper.exists() || entity.exists() || xml.exists())) {
                     logger.warn("Skip table:%s", tableInfo.getName());
                     continue;
                 }
+                BeanClass bean = CoderJdbcTableBean.tableInfo(tableInfo);
+
                 IOUtils.write(mapper(tableInfo), new FileOutputStream(mapper));
                 logger.info("write mapper:%s", mapper.getAbsolutePath());
-                IOUtils.write(CoderJavabean.exec(CoderJdbcTableBean.tableInfo(tableInfo),config.getBeanClassParameterExtend()), new FileOutputStream(entity));
+
+                IOUtils.write(CoderJavabean.exec(bean), new FileOutputStream(entity));
                 logger.info("write entity:%s", entity.getAbsolutePath());
+
                 IOUtils.write(xml(tableInfo), new FileOutputStream(xml));
                 logger.info("write xml:%s", xml.getAbsolutePath());
+
+                if (dtoDir != null && dtoDir.isDirectory()) {
+                    BeanClass dtoBean = CoderJdbcTableBean.tableInfo(tableInfo);
+                    dtoBean.setPack(config.dtoPackage);
+                    dtoBean.setClassName(dtoBean.className + "DTO");
+                    dtoBean.setClassNameLowerCase(dtoBean.classNameLowerCase + "DTO");
+                    IOUtils.write(CoderJavabean.exec(dtoBean, config.getBeanClassParameterExtend()), new FileOutputStream(dto));
+                    logger.info("write dto:%s", xml.getAbsolutePath());
+
+                    if (dtoBuilderDir != null && dtoBuilderDir.isDirectory()) {
+                        File dtoBuilderFile = new File(dtoBuilderDir, dtoBean.className + "Builder.java");
+                        IOUtils.write(CoderDTOBuilder.exec(bean , dtoBean ,config.dtoBuilderPackage), new FileOutputStream(dtoBuilderFile));
+                        logger.info("write dtoBuilder:%s", xml.getAbsolutePath());
+                    }
+                }
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -102,13 +126,32 @@ public class CoderMybatis implements Serializable {
         String dtoPackage;
         String dtoDir;
         boolean generateBuilderMethod4bean = false;
+        String dtoBuilderPackage;
+        String dtoBuilderDir;
 
-        public   CoderJavabean.BeanClassParameterExtend getBeanClassParameterExtend(){
+        public CoderJavabean.BeanClassParameterExtend getBeanClassParameterExtend() {
             CoderJavabean.BeanClassParameterExtend re = new CoderJavabean.BeanClassParameterExtend();
             re.setDtoPackage(dtoPackage);
             re.setGenerateBuilderMethod(generateBuilderMethod4bean);
             return re;
         }
+
+        public String getDtoBuilderPackage() {
+            return dtoBuilderPackage;
+        }
+
+        public void setDtoBuilderPackage(String dtoBuilderPackage) {
+            this.dtoBuilderPackage = dtoBuilderPackage;
+        }
+
+        public String getDtoBuilderDir() {
+            return dtoBuilderDir;
+        }
+
+        public void setDtoBuilderDir(String dtoBuilderDir) {
+            this.dtoBuilderDir = dtoBuilderDir;
+        }
+
         public String getDtoPackage() {
             return dtoPackage;
         }

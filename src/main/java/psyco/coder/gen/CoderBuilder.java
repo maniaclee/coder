@@ -13,6 +13,7 @@ public class CoderBuilder {
     public static BeanClass builder(String s, String pack) throws Exception {
         BuilderParam b = (BuilderParam) CoderJavabean.bean(s,BuilderParam.class);
         b.setBuilderClassName(b.getClassName() + "Builder");
+        b.setPack(pack);
         return b;
     }
 
