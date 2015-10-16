@@ -15,7 +15,7 @@ public class ${bean.className}DTOBuilder{
         <%}%>
         return re;
     }
-    public static ${bean.className} to${bean.className}(${bean.className} ${dto.classNameLowerCase}){
+    public static ${bean.className} to${bean.className}(${dto.className} ${dto.classNameLowerCase}){
         ${bean.className} re = new ${bean.className}();
          <% for(f in bean.fields){%>
         re.${f.setter}(${dto.classNameLowerCase}.${f.getter}());

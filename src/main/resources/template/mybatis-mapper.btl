@@ -5,14 +5,14 @@ import ${table.pack}.${table.className};
 
 public interface ${table.className}Mapper{
 
-    public ${table.className} findOne(${table.primaryKey.javaType} id);
+    ${table.className} findOne(${table.primaryKey.javaType} id);
 
-    public List<${table.className}> find(List<${table.primaryKey.javaType}> ids);
+    List<${table.className}> find(List<${table.primaryKey.javaType}> ids);
 
-    public ${table.primaryKey.javaType} insert(${table.className} ${table.classNameLower});
+    ${table.primaryKey.javaType} insert(${table.className} ${table.classNameLower});
 
-    public void update(${table.className} ${table.classNameLower});
+    void update(${table.className} ${table.classNameLower});
 
-    public void delete(${table.primaryKey.javaType} id);
+    void delete(${table.primaryKey.javaType} id);
 
 }
