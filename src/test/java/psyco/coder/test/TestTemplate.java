@@ -68,7 +68,7 @@ public class TestTemplate {
     @Test
     public void mybatisProject_home() throws Exception {
         CoderMybatis.MybatisProjectConfig config = new CoderMybatis.MybatisProjectConfig();
-        config.setOverwrite(true);
+//        config.setOverwrite(true);
         config.setAuthor("psyco");
         config.setJdbcInfo(jdbc);
         config.setEntityDir("/Users/psyco/workspace/github/user-center/user-center-biz/src/main/java/psyco/user/center/dal/entity");
