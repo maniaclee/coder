@@ -29,9 +29,9 @@
             <version>${logback-version}</version>
         </dependency>
         <!--<dependency>-->
-            <!--<groupId>ch.qos.logback</groupId>-->
-            <!--<artifactId>logback-access</artifactId>-->
-            <!--<version>${logback-version}</version>-->
+        <!--<groupId>ch.qos.logback</groupId>-->
+        <!--<artifactId>logback-access</artifactId>-->
+        <!--<version>${logback-version}</version>-->
         <!--</dependency>-->
         <dependency>
             <groupId>org.slf4j</groupId>
@@ -96,6 +96,10 @@
                     <target>1.8</target>
                     <encoding>UTF-8</encoding>
                     <showWarnings>true</showWarnings>
+                    <compilerArguments>
+                        <arg>-parameters</arg>
+                    </compilerArguments>
+                    <compilerArgument>-parameters</compilerArgument>
                 </configuration>
             </plugin>
         </plugins>

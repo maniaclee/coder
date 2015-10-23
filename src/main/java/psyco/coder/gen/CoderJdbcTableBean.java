@@ -12,6 +12,7 @@ import java.util.stream.Collectors;
  */
 public class CoderJdbcTableBean {
 
+    @Deprecated
     public static BeanClass tableInfo(TableInfo tableInfo) {
         return new BeanClass(
                 tableInfo.getClassName(),
@@ -26,6 +27,7 @@ public class CoderJdbcTableBean {
                 .withAuthor(tableInfo.getAuthor());
     }
 
+    @Deprecated
     public static String exec(TableInfo tableInfo) throws Exception {
         return CoderJavabean.exec(tableInfo(tableInfo));
     }
