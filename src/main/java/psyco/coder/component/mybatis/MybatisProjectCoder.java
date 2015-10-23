@@ -6,6 +6,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import psyco.coder.coder.CommonCoder;
+import psyco.coder.coder.MybatisCoder;
 import psyco.coder.component.bean.JavaBean;
 import psyco.coder.component.jdbc.JdbcExecutor;
 import psyco.coder.component.jdbc.TableInfo;
@@ -21,15 +22,15 @@ import java.util.stream.Collectors;
 /**
  * Created by peng on 15/10/11.
  */
-public class CoderMybatis implements Serializable {
-    static Logger logger = LoggerFactory.getLogger(CoderMybatis.class);
+public class MybatisProjectCoder implements Serializable {
+    static Logger logger = LoggerFactory.getLogger(MybatisProjectCoder.class);
     private CommonCoder beanCoder = CoderProxy.load(CommonCoder.class);
-    private IMybatis mybatisCoder = CoderProxy.load(IMybatis.class);
+    private MybatisCoder mybatisCoder = CoderProxy.load(MybatisCoder.class);
 
     private MybatisConfig config;
 
-    public static CoderMybatis instance(MybatisConfig config) {
-        CoderMybatis re = new CoderMybatis();
+    public static MybatisProjectCoder instance(MybatisConfig config) {
+        MybatisProjectCoder re = new MybatisProjectCoder();
         re.config = config;
         return re;
     }
@@ -93,7 +94,7 @@ public class CoderMybatis implements Serializable {
                 IOUtils.write(mybatisCoder.xml(
                                 tableInfo,
                                 pack(config.pack.basePackage, config.pack.mapper),
-                                new IMybatis.SqlClauses(
+                                new MybatisCoder.SqlClauses(
                                         tableInfo.getColumns().stream().map(e -> e.getColumnName()).collect(Collectors.joining(",")),
                                         tableInfo.getColumns().stream().map(e -> String.format("#{%s}", e.getFieldName())).collect(Collectors.joining(",")))),
                         new FileOutputStream(xml));

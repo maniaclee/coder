@@ -1,4 +1,4 @@
-package psyco.coder.component.mybatis;
+package psyco.coder.coder;
 
 import psyco.coder.component.jdbc.TableInfo;
 import psyco.coder.core.Param;
@@ -7,7 +7,7 @@ import psyco.coder.core.Template;
 /**
  * Created by peng on 15/10/24.
  */
-public interface IMybatis {
+public interface MybatisCoder {
 
     @Template("/template/mybatis-mapper.btl")
     String mapper(@Param("table") TableInfo beanClass, @Param("mapperPackage") String mapperPackage);

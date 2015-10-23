@@ -3,7 +3,7 @@ package psyco.coder.test;
 import org.junit.Test;
 import org.yaml.snakeyaml.Yaml;
 import psyco.coder.component.jdbc.JdbcConfig;
-import psyco.coder.component.mybatis.CoderMybatis;
+import psyco.coder.component.mybatis.MybatisProjectCoder;
 import psyco.coder.component.mybatis.MybatisConfig;
 import psyco.coder.component.mybatis.MybatisPackageConfig;
 
@@ -32,7 +32,7 @@ public class TestTemplate {
     public void newsds() throws Exception {
         Yaml y = new Yaml();
         MybatisConfig config = y.loadAs(new FileReader("/Users/peng/workspace/github/coder/src/main/resources/mybatis.gen.yaml"), MybatisConfig.class);
-        CoderMybatis.instance(config).mybatisProject();
+        MybatisProjectCoder.instance(config).mybatisProject();
     }
 
 }
