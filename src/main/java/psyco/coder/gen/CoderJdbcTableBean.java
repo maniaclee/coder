@@ -1,9 +1,9 @@
 package psyco.coder.gen;
 
 import psyco.coder.util.CaseUtil;
-import psyco.coder.db.jdbc.TableInfo;
-import psyco.coder.bean.BeanClass;
-import psyco.coder.bean.BeanField;
+import psyco.coder.component.jdbc.TableInfo;
+import psyco.coder.component.bean.BeanClass;
+import psyco.coder.component.bean.BeanField;
 
 import java.util.stream.Collectors;
 

@@ -3,8 +3,8 @@ package psyco.coder.gen;
 import com.google.common.collect.ImmutableMap;
 import org.eclipse.jdt.core.dom.TypeDeclaration;
 import psyco.coder.ast.parser.ClassParser;
-import psyco.coder.bean.BeanClass;
-import psyco.coder.bean.BeanField;
+import psyco.coder.component.bean.BeanClass;
+import psyco.coder.component.bean.BeanField;
 import psyco.coder.engine.BeetlEngine;
 import psyco.coder.util.CaseUtil;
 

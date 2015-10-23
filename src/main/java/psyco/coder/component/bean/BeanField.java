@@ -1,4 +1,4 @@
-package psyco.coder.bean;
+package psyco.coder.component.bean;
 
 import java.io.Serializable;
 

@@ -1,8 +1,8 @@
 package psyco.coder.gen;
 
-import psyco.coder.bean.BeanField;
+import psyco.coder.component.bean.BeanField;
 import psyco.coder.engine.BeetlEngine;
-import psyco.coder.bean.BeanClass;
+import psyco.coder.component.bean.BeanClass;
 
 import java.util.List;
 

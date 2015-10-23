@@ -1,7 +1,7 @@
 package psyco.coder.gen;
 
 import com.google.common.collect.ImmutableMap;
-import psyco.coder.bean.BeanClass;
+import psyco.coder.component.bean.BeanClass;
 import psyco.coder.engine.BeetlEngine;
 
 import java.io.IOException;

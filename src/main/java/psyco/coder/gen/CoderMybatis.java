@@ -6,10 +6,10 @@ import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import psyco.coder.bean.BeanClass;
-import psyco.coder.db.jdbc.JDBCInfo;
-import psyco.coder.db.jdbc.TableInfo;
-import psyco.coder.db.jdbc.TableInfoBuilder;
+import psyco.coder.component.bean.BeanClass;
+import psyco.coder.component.jdbc.JdbcExecutor;
+import psyco.coder.component.jdbc.TableInfo;
+import psyco.coder.component.jdbc.JdbcType;
 import psyco.coder.engine.BeetlEngine;
 
 import java.io.File;
@@ -61,7 +61,7 @@ public class CoderMybatis implements Serializable {
         Preconditions.checkArgument(StringUtils.isNotBlank(config.getMapperPackage()), "Missing mapper package");
         Preconditions.checkArgument(StringUtils.isNotBlank(config.getXmlDir()), "Missing mapper xml directory");
 
-        List<TableInfo> tables = TableInfoBuilder.fromJDBCInfo(config.getJdbcInfo());
+        List<TableInfo> tables = JdbcType.fromJDBCInfo(config.getJdbcExecutor());
         File entityDir = new File(config.entityDir);
         File mapperDir = new File(config.mapperDir);
         File xmlDir = new File(config.xmlDir);
@@ -120,7 +120,7 @@ public class CoderMybatis implements Serializable {
         String mapperPackage;
         String mapperDir;
         String xmlDir;
-        JDBCInfo jdbcInfo;
+        JdbcExecutor jdbcExecutor;
         String author;
         boolean overwrite = false;
         String dtoPackage;
@@ -184,12 +184,12 @@ public class CoderMybatis implements Serializable {
             this.overwrite = overwrite;
         }
 
-        public JDBCInfo getJdbcInfo() {
-            return jdbcInfo;
+        public JdbcExecutor getJdbcExecutor() {
+            return jdbcExecutor;
         }
 
-        public void setJdbcInfo(JDBCInfo jdbcInfo) {
-            this.jdbcInfo = jdbcInfo;
+        public void setJdbcExecutor(JdbcExecutor jdbcExecutor) {
+            this.jdbcExecutor = jdbcExecutor;
         }
 
         public String getEntityPackage() {

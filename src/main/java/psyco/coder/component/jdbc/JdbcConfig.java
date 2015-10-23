@@ -1,4 +1,4 @@
-package psyco.coder.db.jdbc;
+package psyco.coder.component.jdbc;
 
 import java.io.Serializable;
 

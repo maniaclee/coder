@@ -1,5 +1,6 @@
-package psyco.coder.db.jdbc;
+package psyco.coder.component.jdbc;
 
+import com.google.common.base.CaseFormat;
 import com.google.common.collect.Lists;
 
 import java.sql.*;
@@ -12,28 +13,24 @@ import java.util.stream.Collectors;
 /**
  * Created by lipeng on 15/8/25.
  */
-public class JDBCInfo {
+public class JdbcExecutor {
 
 
-    private String dbUrl;
-    private String dbUser;
-    private String dbPassword;
     public Connection connection;
     public DatabaseMetaData databaseMetaData;
+    public JdbcConfig jdbcConfig;
 
-    public JDBCInfo(String DB_URL, String DB_USER, String DB_PASSWORD) {
-        this.dbUrl = DB_URL;
-        this.dbUser = DB_USER;
-        this.dbPassword = DB_PASSWORD;
+    public JdbcExecutor(JdbcConfig jdbcConfig) {
+        this.jdbcConfig = jdbcConfig;
     }
 
     public void init() throws Exception {
-        connection = getConnection(dbUrl, dbUser, dbPassword);
+        connection = getConnection(jdbcConfig.getUrl(), jdbcConfig.getUser(), jdbcConfig.getPassword());
         databaseMetaData = connection.getMetaData();
     }
 
 
-    Connection getConnection(String URL, String USER, String PASS) throws SQLException {
+    private Connection getConnection(String URL, String USER, String PASS) throws SQLException {
         return DriverManager.getConnection(URL, USER, PASS);
     }
 
@@ -95,5 +92,22 @@ public class JDBCInfo {
         super.finalize();
     }
 
+
+    public List<TableInfo> jdbcTables() throws Exception {
+        return getTables().entrySet().stream().map(en ->
+                new TableInfo(
+                        en.getKey(),
+                        en.getValue().stream()
+                                .map(col -> {
+                                    String columnName = col.get(0);
+                                    String fieldName = CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL, columnName);
+                                    String columnType = col.get(1);
+                                    String columnJavaType = JdbcType.getJavaType(columnType);
+                                    int columnSize = Integer.parseInt(col.get(2));
+                                    boolean isPrimaryKey = Boolean.parseBoolean(col.get(3));
+                                    return new ColumnInfo(columnName, fieldName, columnType, columnJavaType, columnSize, isPrimaryKey);
+                                }).collect(Collectors.toList())))
+                .collect(Collectors.toList());
+    }
 
 }

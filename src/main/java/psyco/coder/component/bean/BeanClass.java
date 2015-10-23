@@ -1,4 +1,4 @@
-package psyco.coder.bean;
+package psyco.coder.component.bean;
 
 import org.apache.commons.lang3.StringUtils;
 

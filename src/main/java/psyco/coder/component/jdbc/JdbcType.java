@@ -1,11 +1,9 @@
-package psyco.coder.db.jdbc;
+package psyco.coder.component.jdbc;
 
 
 import com.google.common.base.CaseFormat;
 import com.google.common.collect.ImmutableMap;
 import org.apache.commons.lang3.StringUtils;
-import org.junit.Test;
-import psyco.coder.gen.CoderJdbcTableBean;
 
 import java.util.List;
 import java.util.regex.Matcher;
@@ -15,7 +13,7 @@ import java.util.stream.Collectors;
 /**
  * Created by peng on 15/10/11.
  */
-public class TableInfoBuilder {
+public class JdbcType {
 
     public static ImmutableMap<String, String> typeMap = ImmutableMap.<String, String>builder()
             .put("VARCHAR", "String")
@@ -54,7 +52,7 @@ public class TableInfoBuilder {
         return jdbcType;
     }
 
-    public static List<TableInfo> fromJDBCInfo(JDBCInfo jdbc) throws Exception {
+    public static List<TableInfo> fromJDBCInfo(JdbcExecutor jdbc) throws Exception {
         jdbc.init();
         return jdbc.getTables().entrySet().stream().map(en ->
                 new TableInfo(
@@ -72,15 +70,4 @@ public class TableInfoBuilder {
                 .collect(Collectors.toList());
     }
 
-    @Test
-    public void sdfs() throws Exception {
-        JDBCInfo jdbc = new JDBCInfo("jdbc:mysql://localhost:3306/test?characterEncoding=UTF-8", "root", "");
-        fromJDBCInfo(jdbc).forEach(tableInfo -> {
-            try {
-                System.out.println(CoderJdbcTableBean.exec(tableInfo));
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        });
-    }
 }

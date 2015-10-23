@@ -1,4 +1,4 @@
-package psyco.coder.db.jdbc;
+package psyco.coder.component.jdbc;
 
 /**
  * Created by peng on 15/10/10.

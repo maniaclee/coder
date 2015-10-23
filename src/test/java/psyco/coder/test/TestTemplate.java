@@ -1,9 +1,9 @@
 package psyco.coder.test;
 
 import org.junit.Test;
-import psyco.coder.db.jdbc.JDBCInfo;
-import psyco.coder.db.jdbc.TableInfo;
-import psyco.coder.db.jdbc.TableInfoBuilder;
+import psyco.coder.component.jdbc.JdbcExecutor;
+import psyco.coder.component.jdbc.TableInfo;
+import psyco.coder.component.jdbc.JdbcType;
 import psyco.coder.gen.CoderBuilder;
 import psyco.coder.gen.CoderMybatis;
 
@@ -14,10 +14,10 @@ import java.util.List;
  */
 public class TestTemplate {
     static String s;
-    static JDBCInfo jdbc = new JDBCInfo("jdbc:mysql://localhost:3306/user?characterEncoding=UTF-8", "root", "");
+    static JdbcExecutor jdbc = new JdbcExecutor("jdbc:mysql://localhost:3306/user?characterEncoding=UTF-8", "root", "");
 
     static List<TableInfo> tableInfos() throws Exception {
-        return TableInfoBuilder.fromJDBCInfo(jdbc);
+        return JdbcType.fromJDBCInfo(jdbc);
     }
 
     static {
@@ -51,7 +51,7 @@ public class TestTemplate {
         CoderMybatis.MybatisProjectConfig config = new CoderMybatis.MybatisProjectConfig();
         config.setOverwrite(true);
         config.setAuthor("psyco");
-        config.setJdbcInfo(jdbc);
+        config.setJdbcExecutor(jdbc);
         config.setEntityDir("/Users/peng/workspace/github/user-center/user-center-biz/src/main/java/psyco/user/center/dal/entity");
         config.setEntityPackage("psyco.user.center.dal.entity");
 
@@ -70,7 +70,7 @@ public class TestTemplate {
         CoderMybatis.MybatisProjectConfig config = new CoderMybatis.MybatisProjectConfig();
 //        config.setOverwrite(true);
         config.setAuthor("psyco");
-        config.setJdbcInfo(jdbc);
+        config.setJdbcExecutor(jdbc);
         config.setEntityDir("/Users/psyco/workspace/github/user-center/user-center-biz/src/main/java/psyco/user/center/dal/entity");
         config.setEntityPackage("psyco.user.center.dal.entity");
 
@@ -95,7 +95,7 @@ public class TestTemplate {
         CoderMybatis.MybatisProjectConfig config = new CoderMybatis.MybatisProjectConfig();
         config.setOverwrite(true);
         config.setAuthor("psyco");
-        config.setJdbcInfo(jdbc);
+        config.setJdbcExecutor(jdbc);
         config.setEntityDir("/Users/psyco/workspace/github/user-center/user-center-biz/src/main/java/psyco/user/center/dal/entity");
         config.setEntityPackage("psyco.user.center.dal.entity");
 

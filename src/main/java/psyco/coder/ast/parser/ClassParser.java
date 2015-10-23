@@ -5,8 +5,8 @@ import org.apache.commons.io.IOUtils;
 import org.eclipse.jdt.core.dom.*;
 import org.junit.Test;
 import psyco.coder.util.CaseUtil;
-import psyco.coder.bean.BeanClass;
-import psyco.coder.bean.BeanField;
+import psyco.coder.component.bean.BeanClass;
+import psyco.coder.component.bean.BeanField;
 
 import java.io.File;
 import java.io.FileReader;
