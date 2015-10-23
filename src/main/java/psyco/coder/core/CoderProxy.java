@@ -1,8 +1,6 @@
 package psyco.coder.core;
 
 import com.google.common.collect.Maps;
-import org.junit.Test;
-import psyco.coder.coder.CommonCoder;
 import psyco.coder.engine.BeetlEngine;
 
 import java.io.IOException;
@@ -47,11 +45,6 @@ public class CoderProxy {
         return Optional.ofNullable(parameter.getAnnotation(Param.class))
                 .map(param -> param.value())
                 .orElse(parameter.getName());
-    }
-
-    @Test
-    public void sdfsdf() {
-        CommonCoder commonCoder = load(CommonCoder.class);
     }
 
 }
