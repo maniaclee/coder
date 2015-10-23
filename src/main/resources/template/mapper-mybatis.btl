@@ -1,0 +1,18 @@
+package ${config.mapperPackage};
+
+import java.util.List;
+import ${table.pack}.${table.className};
+
+public interface ${table.className}Mapper{
+
+    ${table.className} findOne(${table.primaryKey.javaType} id);
+
+    List<${table.className}> find(List<${table.primaryKey.javaType}> ids);
+
+    ${table.primaryKey.javaType} insert(${table.className} ${table.classNameLower});
+
+    void update(${table.className} ${table.classNameLower});
+
+    void delete(${table.primaryKey.javaType} id);
+
+}

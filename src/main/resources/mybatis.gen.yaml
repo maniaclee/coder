@@ -1,0 +1,21 @@
+author: psyco
+
+jdbcInfo: {
+  url:jdbc:mysql://localhost:3306/user?characterEncoding=UTF-8,
+  user:root,
+  password:
+
+}
+overwrite: false
+pack: {
+baseDir: /Users/psyco/workspace/github/coder/src/test/java,
+basePackage: test.dal,
+ bean: bean,
+ builder: builder,
+  dto: dto,
+  mapper: mapper,
+  repository: repository,
+  service: service,
+  serviceImpl: service.impl
+  }
+xmlDir: /Users/psyco/workspace/github/coder/src/test/java/test/dal
