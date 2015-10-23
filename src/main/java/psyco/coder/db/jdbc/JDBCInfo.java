@@ -15,20 +15,20 @@ import java.util.stream.Collectors;
 public class JDBCInfo {
 
 
-    private String dbUrl;
-    private String dbUser;
-    private String dbPassword;
+    private String url;
+    private String user;
+    private String password;
     public Connection connection;
     public DatabaseMetaData databaseMetaData;
 
     public JDBCInfo(String DB_URL, String DB_USER, String DB_PASSWORD) {
-        this.dbUrl = DB_URL;
-        this.dbUser = DB_USER;
-        this.dbPassword = DB_PASSWORD;
+        this.url = DB_URL;
+        this.user = DB_USER;
+        this.password = DB_PASSWORD;
     }
 
     public void init() throws Exception {
-        connection = getConnection(dbUrl, dbUser, dbPassword);
+        connection = getConnection(url, user, password);
         databaseMetaData = connection.getMetaData();
     }
 

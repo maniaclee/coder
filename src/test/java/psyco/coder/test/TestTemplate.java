@@ -1,12 +1,15 @@
 package psyco.coder.test;
 
 import org.junit.Test;
+import org.yaml.snakeyaml.Yaml;
 import psyco.coder.db.jdbc.JDBCInfo;
 import psyco.coder.db.jdbc.TableInfo;
 import psyco.coder.db.jdbc.TableInfoBuilder;
 import psyco.coder.gen.CoderBuilder;
 import psyco.coder.gen.CoderMybatis;
+import psyco.coder.gen.CoderMybatisNew;
 
+import java.io.FileReader;
 import java.util.List;
 
 /**
@@ -92,6 +95,7 @@ public class TestTemplate {
 
     @Test
     public void mybatisProject_backup() throws Exception {
+        Yaml y = new Yaml();
         CoderMybatis.MybatisProjectConfig config = new CoderMybatis.MybatisProjectConfig();
         config.setOverwrite(true);
         config.setAuthor("psyco");
@@ -111,10 +115,20 @@ public class TestTemplate {
 
         config.setXmlDir("/Users/psyco/workspace/github/user-center/user-center-biz/src/main/resources/sqlmap");
 //        config.setXmlDir("/Users/psyco/workspace/github/user-center/user-center-biz/src/main/resources/");
-        CoderMybatis.instance(config).mybatisProject(config);
+//        CoderMybatis.instance(config).mybatisProject(config);
 
 //        System.out.println(CoderMybatis.instance(config).xml(tableInfos().get(0)));
 //        System.out.println(CoderMybatis.instance(config).entity(tableInfos().get(0)));
+        y.setName("asdf");
+        CoderMybatisNew.MybatisTemplateConfig conf = new CoderMybatisNew.MybatisTemplateConfig();
+        conf.setPack(new CoderMybatisNew.MybatisTemplateConfig_Package());
+        System.out.println(y.dump(conf));
+    }
+
+    public void newsds() throws Exception {
+        Yaml y = new Yaml();
+        CoderMybatisNew.MybatisTemplateConfig config = y.loadAs(new FileReader("/Users/psyco/workspace/github/coder/src/test/java/psyco/coder/test"), CoderMybatisNew.MybatisTemplateConfig.class);
+        CoderMybatisNew.instance(config).mybatisProject();
     }
 
 }
