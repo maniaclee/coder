@@ -1,14 +1,14 @@
 author: psyco
 
 jdbcInfo: {
-  url:jdbc:mysql://localhost:3306/user?characterEncoding=UTF-8,
-  user:root,
+  url: 'jdbc:mysql://localhost:3306/user?characterEncoding=UTF-8',
+  user: root,
   password:
 
 }
-overwrite: false
+overwrite: true
 pack: {
-baseDir: /Users/psyco/workspace/github/coder/src/test/java,
+baseDir: /Users/peng/workspace/github/coder/src/test/java,
 basePackage: test.dal,
  bean: bean,
  builder: builder,
@@ -18,4 +18,4 @@ basePackage: test.dal,
   service: service,
   serviceImpl: service.impl
   }
-xmlDir: /Users/psyco/workspace/github/coder/src/test/java/test/dal
+xmlDir: /Users/peng/workspace/github/coder/src/test/java/test/dal

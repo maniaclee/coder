@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="test.dal.mapper.UserDetailMapper">
+    <resultMap id="resultMap" type="test.dal.bean.UserDetail">
+        <result column="id" property="id"/>
+        <result column="user_id" property="userId"/>
+    </resultMap>
+
+    <sql id="selectAllColumns">
+        SELECT
+        id,user_id
+        FROM UserDetail
+    </sql>
+
+    <sql id="setAllColumns">
+        <set>
+            <if test="id != null">  id = #{id},</if>
+            <if test="userId != null">  user_id = #{userId},</if>
+        </set>
+    </sql>
+
+    <select id="findOne" resultMap="resultMap">
+        <include refid="selectAllColumns"/>
+        where id = #{id}
+    </select>
+    <select id="find" resultMap="resultMap">
+        <include refid="selectAllColumns"/>
+        <where>
+           id in
+            <foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </where>
+        ORDER BY id asc
+    </select>
+
+    <update id="update" parameterType="test.dal.bean.UserDetail">
+        UPDATE
+        UserDetail
+        <include refid="setAllColumns"/>
+        WHERE
+            id = #{id}
+    </update>
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="UserDetail">
+        <selectKey resultType="Long" keyProperty="id" order="AFTER" >
+          SELECT LAST_INSERT_ID() AS id
+        </selectKey>
+        INSERT INTO User_Detail
+        (id,user_id)
+        values(#{id},#{userId})
+    </insert>
+
+    <delete id="delete">
+        DELETE FROM UserDetail
+        WHERE id = #{id}
+    </delete>
+</mapper>

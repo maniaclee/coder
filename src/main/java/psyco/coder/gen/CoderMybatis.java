@@ -9,7 +9,8 @@ import org.slf4j.LoggerFactory;
 import psyco.coder.component.bean.BeanClass;
 import psyco.coder.component.jdbc.JdbcExecutor;
 import psyco.coder.component.jdbc.TableInfo;
-import psyco.coder.component.jdbc.JdbcType;
+import psyco.coder.component.mybatis.MybatisConfig;
+import psyco.coder.component.mybatis.MybatisPackageConfig;
 import psyco.coder.engine.BeetlEngine;
 
 import java.io.File;
@@ -26,51 +27,75 @@ public class CoderMybatis implements Serializable {
     static Logger logger = LoggerFactory.getLogger(CoderMybatis.class);
 
 
-    private MybatisProjectConfig config;
+    private MybatisConfig config;
 
-    public static CoderMybatis instance(MybatisProjectConfig config) {
+    public static CoderMybatis instance(MybatisConfig config) {
         CoderMybatis re = new CoderMybatis();
         re.config = config;
         return re;
     }
 
-    public String mapper(TableInfo beanClass) throws IOException {
-        return BeetlEngine.render("/template/mybatis-mapper.btl", new ImmutableMap.Builder<String, Object>()
+    private String mapper(TableInfo beanClass) throws Exception {
+        return BeetlEngine.render("/template/mapper-mybatis.btl", new ImmutableMap.Builder<String, Object>()
                 .put("table", beanClass)
-                .put("config", config)
+                .put("mapperPackage", pack(config.pack.basePackage, config.pack.mapper))
                 .build());
     }
 
-    public String entity(TableInfo beanClass) throws Exception {
+    private String entity(TableInfo beanClass) throws Exception {
         return CoderJdbcTableBean.exec(beanClass);
     }
 
 
-    public String xml(TableInfo beanClass) throws IOException {
-        return BeetlEngine.render("/template/mybatis-mapper-xml.btl", new ImmutableMap.Builder<String, Object>()
+    private String xml(TableInfo beanClass) throws Exception {
+        return BeetlEngine.render("/template/mapper-xml-mybatis.btl", new ImmutableMap.Builder<String, Object>()
                 .put("table", beanClass)
-                .put("config", config)
+                .put("mapperPackage", pack(config.pack.basePackage, config.pack.mapper))
                 .put("selectClause", beanClass.getColumns().stream().map(e -> e.getColumnName()).collect(Collectors.joining(",")))
                 .put("valuesClause", beanClass.getColumns().stream().map(e -> String.format("#{%s}", e.getFieldName())).collect(Collectors.joining(",")))
                 .build());
     }
 
 
-    public void mybatisProject(MybatisProjectConfig config) throws Exception {
-        Preconditions.checkArgument(StringUtils.isNotBlank(config.getEntityPackage()), "Missing entity package");
-        Preconditions.checkArgument(StringUtils.isNotBlank(config.getMapperPackage()), "Missing mapper package");
-        Preconditions.checkArgument(StringUtils.isNotBlank(config.getXmlDir()), "Missing mapper xml directory");
+    private static String pack(String basePack, String pack) throws Exception {
+        basePack = StringUtils.isBlank(basePack) ? "" : (basePack+".");
+        pack = basePack + pack;
+        if (!pack.matches("\\S+(\\.\\S+)*"))
+            throw new Exception("invalid package format:" + basePack + " and " + pack);
+        return pack;
+    }
 
-        List<TableInfo> tables = JdbcType.fromJDBCInfo(config.getJdbcExecutor());
-        File entityDir = new File(config.entityDir);
-        File mapperDir = new File(config.mapperDir);
+
+    private static File package2file(File basePackageDir, String basePack, String pack) throws Exception {
+        File re = new File(basePackageDir, pack(basePack, pack).replaceAll("\\.", "/"));
+        System.out.println(re.getAbsolutePath());
+        System.out.println(re.mkdirs());
+        if(!re.isDirectory())
+            re.mkdirs();
+        return re;
+    }
+
+    public void mybatisProject() throws Exception {
+        Preconditions.checkArgument(config.pack != null, "Missing package");
+        Preconditions.checkArgument(StringUtils.isNotBlank(config.pack.baseDir), "Missing base dir");
+
+        JdbcExecutor jdbc = new JdbcExecutor(config.getJdbcInfo());
+        jdbc.init();
+
+        List<TableInfo> tables = jdbc.jdbcTables();
+        MybatisPackageConfig pack = config.pack;
+        File baseDir = new File(pack.baseDir);
+
+        File entityDir = package2file(baseDir, pack.basePackage, pack.bean);
+        File mapperDir = package2file(baseDir, pack.basePackage, pack.mapper);
+        File dtoDir = package2file(baseDir, pack.basePackage, pack.dto);
+        File dtoBuilderDir = package2file(baseDir, pack.basePackage, pack.builder);
         File xmlDir = new File(config.xmlDir);
-        File dtoDir = config.dtoDir == null ? null : new File(config.dtoDir);
-        File dtoBuilderDir = config.dtoBuilderDir == null ? null : new File(config.dtoBuilderDir);
+
         for (TableInfo tableInfo : tables) {
             try {
                 /** package */
-                tableInfo.setPack(config.entityPackage);
+                tableInfo.setPack(pack(config.pack.basePackage,config.pack.bean));
                 tableInfo.setAuthor(config.author);
 
                 File mapper = new File(mapperDir, tableInfo.getClassName() + "Mapper.java");
@@ -94,15 +119,17 @@ public class CoderMybatis implements Serializable {
 
                 if (dtoDir != null && dtoDir.isDirectory()) {
                     BeanClass dtoBean = CoderJdbcTableBean.tableInfo(tableInfo);
-                    dtoBean.setPack(config.dtoPackage);
+                    dtoBean.setPack(pack(config.pack.basePackage,config.pack.dto));
                     dtoBean.setClassName(dtoBean.className + "DTO");
                     dtoBean.setClassNameLowerCase(dtoBean.classNameLowerCase + "DTO");
-                    IOUtils.write(CoderJavabean.exec(dtoBean, config.getBeanClassParameterExtend()), new FileOutputStream(dto));
+
+                    IOUtils.write(CoderJavabean.exec(dtoBean), new FileOutputStream(dto));
                     logger.info("write dto:%s", xml.getAbsolutePath());
 
                     if (dtoBuilderDir != null && dtoBuilderDir.isDirectory()) {
                         File dtoBuilderFile = new File(dtoBuilderDir, dtoBean.className + "Builder.java");
-                        IOUtils.write(CoderDTOBuilder.exec(bean , dtoBean ,config.dtoBuilderPackage), new FileOutputStream(dtoBuilderFile));
+
+                        IOUtils.write(CoderDTOBuilder.exec(bean, dtoBean,pack(config.pack.basePackage,config.pack.builder)), new FileOutputStream(dtoBuilderFile));
                         logger.info("write dtoBuilder:%s", xml.getAbsolutePath());
                     }
                 }
@@ -114,131 +141,4 @@ public class CoderMybatis implements Serializable {
     }
 
 
-    public static class MybatisProjectConfig {
-        String entityPackage;
-        String entityDir;
-        String mapperPackage;
-        String mapperDir;
-        String xmlDir;
-        JdbcExecutor jdbcExecutor;
-        String author;
-        boolean overwrite = false;
-        String dtoPackage;
-        String dtoDir;
-        boolean generateBuilderMethod4bean = false;
-        String dtoBuilderPackage;
-        String dtoBuilderDir;
-
-        public CoderJavabean.BeanClassParameterExtend getBeanClassParameterExtend() {
-            CoderJavabean.BeanClassParameterExtend re = new CoderJavabean.BeanClassParameterExtend();
-            re.setDtoPackage(dtoPackage);
-            re.setGenerateBuilderMethod(generateBuilderMethod4bean);
-            return re;
-        }
-
-        public String getDtoBuilderPackage() {
-            return dtoBuilderPackage;
-        }
-
-        public void setDtoBuilderPackage(String dtoBuilderPackage) {
-            this.dtoBuilderPackage = dtoBuilderPackage;
-        }
-
-        public String getDtoBuilderDir() {
-            return dtoBuilderDir;
-        }
-
-        public void setDtoBuilderDir(String dtoBuilderDir) {
-            this.dtoBuilderDir = dtoBuilderDir;
-        }
-
-        public String getDtoPackage() {
-            return dtoPackage;
-        }
-
-        public void setDtoPackage(String dtoPackage) {
-            this.dtoPackage = dtoPackage;
-        }
-
-        public String getDtoDir() {
-            return dtoDir;
-        }
-
-        public void setDtoDir(String dtoDir) {
-            this.dtoDir = dtoDir;
-        }
-
-        public boolean isGenerateBuilderMethod4bean() {
-            return generateBuilderMethod4bean;
-        }
-
-        public void setGenerateBuilderMethod4bean(boolean generateBuilderMethod4bean) {
-            this.generateBuilderMethod4bean = generateBuilderMethod4bean;
-        }
-
-        public boolean isOverwrite() {
-            return overwrite;
-        }
-
-        public void setOverwrite(boolean overwrite) {
-            this.overwrite = overwrite;
-        }
-
-        public JdbcExecutor getJdbcExecutor() {
-            return jdbcExecutor;
-        }
-
-        public void setJdbcExecutor(JdbcExecutor jdbcExecutor) {
-            this.jdbcExecutor = jdbcExecutor;
-        }
-
-        public String getEntityPackage() {
-            return entityPackage;
-        }
-
-        public void setEntityPackage(String entityPackage) {
-            this.entityPackage = entityPackage;
-        }
-
-        public String getEntityDir() {
-            return entityDir;
-        }
-
-        public void setEntityDir(String entityDir) {
-            this.entityDir = entityDir;
-        }
-
-        public String getMapperPackage() {
-            return mapperPackage;
-        }
-
-        public void setMapperPackage(String mapperPackage) {
-            this.mapperPackage = mapperPackage;
-        }
-
-        public String getMapperDir() {
-            return mapperDir;
-        }
-
-        public void setMapperDir(String mapperDir) {
-            this.mapperDir = mapperDir;
-        }
-
-        public String getXmlDir() {
-            return xmlDir;
-        }
-
-        public void setXmlDir(String xmlDir) {
-            this.xmlDir = xmlDir;
-        }
-
-        public String getAuthor() {
-            return author;
-        }
-
-        public void setAuthor(String author) {
-            this.author = author;
-        }
-
-    }
 }

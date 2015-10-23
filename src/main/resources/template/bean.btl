@@ -3,6 +3,7 @@ package ${bean.pack};
 
 <%}%>
 import java.io.Serializable;
+import java.util.Date;
 /**
  * Created by ${bean.author} on ${bean.date}.
  */

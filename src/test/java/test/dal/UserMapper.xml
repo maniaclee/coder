@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="test.dal.mapper.UserMapper">
+    <resultMap id="resultMap" type="test.dal.bean.User">
+        <result column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="sex" property="sex"/>
+        <result column="email" property="email"/>
+        <result column="phone" property="phone"/>
+        <result column="level" property="level"/>
+        <result column="image_url" property="imageUrl"/>
+        <result column="image_thumb_url" property="imageThumbUrl"/>
+        <result column="role" property="role"/>
+        <result column="enabled" property="enabled"/>
+        <result column="password" property="password"/>
+        <result column="gmt_create" property="gmtCreate"/>
+        <result column="gmt_last_modified" property="gmtLastModified"/>
+    </resultMap>
+
+    <sql id="selectAllColumns">
+        SELECT
+        id,name,sex,email,phone,level,image_url,image_thumb_url,role,enabled,password,gmt_create,gmt_last_modified
+        FROM User
+    </sql>
+
+    <sql id="setAllColumns">
+        <set>
+            <if test="id != null">  id = #{id},</if>
+            <if test="name != null">  name = #{name},</if>
+            <if test="sex != null">  sex = #{sex},</if>
+            <if test="email != null">  email = #{email},</if>
+            <if test="phone != null">  phone = #{phone},</if>
+            <if test="level != null">  level = #{level},</if>
+            <if test="imageUrl != null">  image_url = #{imageUrl},</if>
+            <if test="imageThumbUrl != null">  image_thumb_url = #{imageThumbUrl},</if>
+            <if test="role != null">  role = #{role},</if>
+            <if test="enabled != null">  enabled = #{enabled},</if>
+            <if test="password != null">  password = #{password},</if>
+            <if test="gmtCreate != null">  gmt_create = #{gmtCreate},</if>
+            <if test="gmtLastModified != null">  gmt_last_modified = #{gmtLastModified},</if>
+        </set>
+    </sql>
+
+    <select id="findOne" resultMap="resultMap">
+        <include refid="selectAllColumns"/>
+        where id = #{id}
+    </select>
+    <select id="find" resultMap="resultMap">
+        <include refid="selectAllColumns"/>
+        <where>
+           id in
+            <foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </where>
+        ORDER BY id asc
+    </select>
+
+    <update id="update" parameterType="test.dal.bean.User">
+        UPDATE
+        User
+        <include refid="setAllColumns"/>
+        WHERE
+            id = #{id}
+    </update>
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="User">
+        <selectKey resultType="Long" keyProperty="id" order="AFTER" >
+          SELECT LAST_INSERT_ID() AS id
+        </selectKey>
+        INSERT INTO User
+        (id,name,sex,email,phone,level,image_url,image_thumb_url,role,enabled,password,gmt_create,gmt_last_modified)
+        values(#{id},#{name},#{sex},#{email},#{phone},#{level},#{imageUrl},#{imageThumbUrl},#{role},#{enabled},#{password},#{gmtCreate},#{gmtLastModified})
+    </insert>
+
+    <delete id="delete">
+        DELETE FROM User
+        WHERE id = #{id}
+    </delete>
+</mapper>

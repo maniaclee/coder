@@ -2,133 +2,37 @@ package psyco.coder.test;
 
 import org.junit.Test;
 import org.yaml.snakeyaml.Yaml;
-import psyco.coder.db.jdbc.JDBCInfo;
-import psyco.coder.db.jdbc.TableInfo;
-import psyco.coder.db.jdbc.TableInfoBuilder;
-import psyco.coder.gen.CoderBuilder;
+import psyco.coder.component.jdbc.JdbcConfig;
+import psyco.coder.component.mybatis.MybatisConfig;
+import psyco.coder.component.mybatis.MybatisPackageConfig;
 import psyco.coder.gen.CoderMybatis;
-import psyco.coder.gen.CoderMybatisNew;
 
 import java.io.FileReader;
-import java.util.List;
 
 /**
  * Created by peng on 15/10/11.
  */
 public class TestTemplate {
-    static String s;
-    static JDBCInfo jdbc = new JDBCInfo("jdbc:mysql://localhost:3306/user?characterEncoding=UTF-8", "root", "");
-
-    static List<TableInfo> tableInfos() throws Exception {
-        return TableInfoBuilder.fromJDBCInfo(jdbc);
-    }
-
-    static {
-//        try {
-//            s = IOUtils.toString(new FileReader("/Users/peng/workspace/github/coder/src/main/java/psyco/coder/ast/parser/Shit.java"));
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-    }
 
     @Test
-    public void sdfsd() throws Exception {
-//        System.out.println(CoderJavabean.exec(s, ""));
-        System.out.println(CoderBuilder.exec(s, ""));
-    }
-
-    @Test
-    public void mybatis() throws Exception {
-//        System.out.println(CoderJavabean.exec(s, ""));
-        tableInfos().forEach(tableInfo -> {
-            try {
-                System.out.println(tableInfo.getName());
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        });
-    }
-
-    @Test
-    public void mybatisProject() throws Exception {
-        CoderMybatis.MybatisProjectConfig config = new CoderMybatis.MybatisProjectConfig();
-        config.setOverwrite(true);
-        config.setAuthor("psyco");
-        config.setJdbcInfo(jdbc);
-        config.setEntityDir("/Users/peng/workspace/github/user-center/user-center-biz/src/main/java/psyco/user/center/dal/entity");
-        config.setEntityPackage("psyco.user.center.dal.entity");
-
-        config.setMapperPackage("psyco.user.center.dal.mapper");
-        config.setMapperDir("/Users/peng/workspace/github/user-center/user-center-biz/src/main/java/psyco/user/center/dal/mapper");
-
-        config.setXmlDir("/Users/peng/workspace/github/user-center/user-center-biz/src/main/resources/sqlmap");
-//        CoderMybatis.instance(config).mybatisProject(config);
-
-        System.out.println(CoderMybatis.instance(config).xml(tableInfos().get(0)));
-//        System.out.println(CoderMybatis.instance(config).entity(tableInfos().get(0)));
-    }
-
-    @Test
-    public void mybatisProject_home() throws Exception {
-        CoderMybatis.MybatisProjectConfig config = new CoderMybatis.MybatisProjectConfig();
-//        config.setOverwrite(true);
-        config.setAuthor("psyco");
-        config.setJdbcInfo(jdbc);
-        config.setEntityDir("/Users/psyco/workspace/github/user-center/user-center-biz/src/main/java/psyco/user/center/dal/entity");
-        config.setEntityPackage("psyco.user.center.dal.entity");
-
-        config.setMapperPackage("psyco.user.center.dal.mapper");
-        config.setMapperDir("/Users/psyco/workspace/github/user-center/user-center-biz/src/main/java/psyco/user/center/dal/mapper");
-
-        config.setDtoDir("/Users/psyco/workspace/github/user-center/user-center-client/src/main/java/psyco/user/center/client/dto");
-        config.setDtoPackage("psyco.user.center.client.dto");
-
-        config.setDtoBuilderDir("/Users/psyco/workspace/github/user-center/user-center-biz/src/main/java/psyco/user/center/dal/convert");
-        config.setDtoBuilderPackage("psyco.user.center.dal.convert");
-
-        config.setXmlDir("/Users/psyco/workspace/github/user-center/user-center-biz/src/main/resources/sqlmap");
-        CoderMybatis.instance(config).mybatisProject(config);
-
-//        System.out.println(CoderMybatis.instance(config).xml(tableInfos().get(0)));
-//        System.out.println(CoderMybatis.instance(config).entity(tableInfos().get(0)));
-    }
-
-    @Test
-    public void mybatisProject_backup() throws Exception {
+    public void sdfsf() {
         Yaml y = new Yaml();
-        CoderMybatis.MybatisProjectConfig config = new CoderMybatis.MybatisProjectConfig();
-        config.setOverwrite(true);
-        config.setAuthor("psyco");
+        MybatisPackageConfig pack = new MybatisPackageConfig();
+        MybatisConfig config = new MybatisConfig();
+        config.setAuthor("jdbc:mysql://localhost:3306/user?characterEncoding=UTF-8");
+        config.setPack(pack);
+        JdbcConfig jdbc =new JdbcConfig();
+        jdbc.setUrl("jdbc:mysql://localhost:3306/user?characterEncoding=UTF-8");
         config.setJdbcInfo(jdbc);
-        config.setEntityDir("/Users/psyco/workspace/github/user-center/user-center-biz/src/main/java/psyco/user/center/dal/entity");
-        config.setEntityPackage("psyco.user.center.dal.entity");
-
-        config.setMapperPackage("psyco.user.center.dal.mapper");
-        config.setMapperDir("/Users/psyco/workspace/github/user-center/user-center-biz/src/main/java/psyco/user/center/dal/mapper");
-//        config.setMapperDir("/Users/psyco/workspace/github/user-center/user-center-biz/src/main/resources");
-
-        config.setDtoDir("/Users/psyco/workspace/github/user-center/user-center-client/src/main/java/psyco/user/center/client/dto");
-        config.setDtoPackage("psyco.user.center.client.dto");
-
-        config.setDtoBuilderDir("/Users/psyco/workspace/github/user-center/user-center-biz/src/main/java/psyco/user/center/dal/convert");
-        config.setDtoBuilderPackage("psyco.user.center.dal.convert");
-
-        config.setXmlDir("/Users/psyco/workspace/github/user-center/user-center-biz/src/main/resources/sqlmap");
-//        config.setXmlDir("/Users/psyco/workspace/github/user-center/user-center-biz/src/main/resources/");
-//        CoderMybatis.instance(config).mybatisProject(config);
-
-//        System.out.println(CoderMybatis.instance(config).xml(tableInfos().get(0)));
-//        System.out.println(CoderMybatis.instance(config).entity(tableInfos().get(0)));
-        y.setName("asdf");
-        CoderMybatisNew.MybatisTemplateConfig conf = new CoderMybatisNew.MybatisTemplateConfig();
-        conf.setPack(new CoderMybatisNew.MybatisTemplateConfig_Package());
-        System.out.println(y.dump(conf));
+        System.out.println(y.dump(config));
+        System.out.println(y.loadAs(y.dump(config), MybatisConfig.class));
     }
 
+    @Test
     public void newsds() throws Exception {
         Yaml y = new Yaml();
-        CoderMybatisNew.MybatisTemplateConfig config = y.loadAs(new FileReader("/Users/psyco/workspace/github/coder/src/test/java/psyco/coder/test"), CoderMybatisNew.MybatisTemplateConfig.class);
-        CoderMybatisNew.instance(config).mybatisProject();
+        MybatisConfig config = y.loadAs(new FileReader("/Users/peng/workspace/github/coder/src/main/resources/mybatis.gen.yaml"), MybatisConfig.class);
+        CoderMybatis.instance(config).mybatisProject();
     }
 
 }
