@@ -3,7 +3,9 @@ package ${mapperPackage};
 import java.util.List;
 import java.util.Date;
 import ${table.pack}.${table.className};
-
+/**
+ * Created by ${table.author} on ${table.date}.
+ */
 public interface ${table.className}Mapper{
 
     ${table.className} findOne(${table.primaryKey.javaType} id);

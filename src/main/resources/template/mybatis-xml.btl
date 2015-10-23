@@ -9,7 +9,7 @@
 
     <sql id="selectAllColumns">
         SELECT
-        ${selectClause}
+        ${sqls.selectClause}
         FROM ${table.className}
     </sql>
 
@@ -49,8 +49,8 @@
           SELECT LAST_INSERT_ID() AS id
         </selectKey>
         INSERT INTO ${table.name}
-        (${selectClause})
-        values(${valuesClause})
+        (${sqls.selectClause})
+        values(${sqls.valuesClause})
     </insert>
 
     <delete id="delete">

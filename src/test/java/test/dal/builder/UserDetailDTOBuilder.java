@@ -3,7 +3,7 @@ package test.dal.builder;
 import test.dal.bean.UserDetail;
 import test.dal.dto.UserDetailDTO;
 /**
- * Created by psyco on 2015/46/23-11:10:22.
+ * Created by psyco on 2015/19/24-02:10:15.
  */
 public class UserDetailDTOBuilder{
     public static UserDetailDTO toUserDetailDTO(UserDetail userDetail){

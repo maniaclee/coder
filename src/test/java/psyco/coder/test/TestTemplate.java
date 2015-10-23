@@ -3,9 +3,9 @@ package psyco.coder.test;
 import org.junit.Test;
 import org.yaml.snakeyaml.Yaml;
 import psyco.coder.component.jdbc.JdbcConfig;
+import psyco.coder.component.mybatis.CoderMybatis;
 import psyco.coder.component.mybatis.MybatisConfig;
 import psyco.coder.component.mybatis.MybatisPackageConfig;
-import psyco.coder.gen.CoderMybatis;
 
 import java.io.FileReader;
 
@@ -21,7 +21,7 @@ public class TestTemplate {
         MybatisConfig config = new MybatisConfig();
         config.setAuthor("jdbc:mysql://localhost:3306/user?characterEncoding=UTF-8");
         config.setPack(pack);
-        JdbcConfig jdbc =new JdbcConfig();
+        JdbcConfig jdbc = new JdbcConfig();
         jdbc.setUrl("jdbc:mysql://localhost:3306/user?characterEncoding=UTF-8");
         config.setJdbcInfo(jdbc);
         System.out.println(y.dump(config));

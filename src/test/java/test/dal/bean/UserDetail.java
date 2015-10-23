@@ -3,7 +3,7 @@ package test.dal.bean;
 import java.io.Serializable;
 import java.util.Date;
 /**
- * Created by psyco on 2015/46/23-11:10:22.
+ * Created by psyco on 2015/19/24-02:10:15.
  */
 public class UserDetail implements Serializable{
 

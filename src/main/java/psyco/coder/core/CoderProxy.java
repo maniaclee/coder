@@ -52,7 +52,6 @@ public class CoderProxy {
     @Test
     public void sdfsdf() {
         CommonCoder commonCoder = load(CommonCoder.class);
-        System.out.println(commonCoder.bean("sdf", 3));
     }
 
 }

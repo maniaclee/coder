@@ -3,24 +3,25 @@ package psyco.coder.component.jdbc;
 import com.google.common.base.CaseFormat;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.builder.ToStringBuilder;
-import psyco.coder.component.bean.BeanClass;
+import psyco.coder.component.Base;
+import psyco.coder.component.bean.Class;
 import psyco.coder.component.bean.BeanField;
 import psyco.coder.util.CaseUtil;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.stream.Collectors;
 
 /**
  * Created by peng on 15/10/10.
  */
-public class TableInfo {
+public class TableInfo extends Base implements Serializable {
     String name;
     List<ColumnInfo> columns;
     ColumnInfo primaryKey;
     String className;
     String classNameLower;
     String pack;
-    String author;
 
     public TableInfo(String name, List<ColumnInfo> columns) {
         this.name = name;
@@ -30,18 +31,18 @@ public class TableInfo {
         this.primaryKey = columns.stream().filter(columnInfo -> columnInfo.isPrimaryKey()).findFirst().get();
     }
 
-    public static BeanClass toBean(TableInfo tableInfo) {
-        return new BeanClass(
-                tableInfo.getClassName(),
-                tableInfo.getColumns().stream().map(col ->
+    public Class toBean() {
+        return new Class(
+                getClassName(),
+                getColumns().stream().map(col ->
                         new BeanField(
                                 col.getFieldName(),
                                 CaseUtil.getter(col.getFieldName()),
                                 CaseUtil.setter(col.getFieldName()),
                                 col.getJavaType()
                         )).collect(Collectors.toList()),
-                tableInfo.getPack())
-                .withAuthor(tableInfo.getAuthor());
+                getPack())
+                .withAuthor(getAuthor());
     }
 
     public String getName() {
@@ -90,14 +91,6 @@ public class TableInfo {
 
     public void setPack(String pack) {
         this.pack = pack;
-    }
-
-    public String getAuthor() {
-        return author;
-    }
-
-    public void setAuthor(String author) {
-        this.author = author;
     }
 
     @Override
