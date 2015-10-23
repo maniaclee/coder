@@ -8,7 +8,7 @@ import psyco.coder.core.Template;
 /**
  * Created by peng on 15/10/24.
  */
-public interface CommonCoder {
+public interface BeanCoder {
 
     @Template("/template/bean.btl")
     String bean(@Param("bean") JavaBean beanClass);

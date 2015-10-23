@@ -5,7 +5,7 @@ import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import psyco.coder.coder.CommonCoder;
+import psyco.coder.coder.BeanCoder;
 import psyco.coder.coder.MybatisCoder;
 import psyco.coder.component.bean.JavaBean;
 import psyco.coder.component.jdbc.JdbcExecutor;
@@ -24,7 +24,7 @@ import java.util.stream.Collectors;
  */
 public class MybatisProjectCoder implements Serializable {
     static Logger logger = LoggerFactory.getLogger(MybatisProjectCoder.class);
-    private CommonCoder beanCoder = CoderProxy.load(CommonCoder.class);
+    private BeanCoder beanCoder = CoderProxy.load(BeanCoder.class);
     private MybatisCoder mybatisCoder = CoderProxy.load(MybatisCoder.class);
 
     private MybatisConfig config;
