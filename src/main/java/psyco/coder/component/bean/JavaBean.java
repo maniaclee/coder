@@ -9,28 +9,28 @@ import psyco.coder.util.CaseUtil;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class Class extends Base {
+public class JavaBean extends Base {
     public String className;
     public List<BeanField> fields;
     public String pack;
     public String classNameLowerCase;
 
-    public Class() {
+    public JavaBean() {
     }
 
-    public Class(String className, List<BeanField> fields) {
+    public JavaBean(String className, List<BeanField> fields) {
         this.className = className;
         this.fields = fields;
         this.classNameLowerCase = StringUtils.uncapitalize(className);
     }
 
-    public Class(String className, List<BeanField> fields, String pack) {
+    public JavaBean(String className, List<BeanField> fields, String pack) {
         this(className, fields);
         this.pack = pack;
     }
 
 
-    public static Class parseBeanExtended(String s, java.lang.Class<? extends Class> paramClass) throws Exception {
+    public static JavaBean parseBeanExtended(String s, java.lang.Class<? extends JavaBean> paramClass) throws Exception {
         ClassParser ast = ClassParser.parse(s);
         TypeDeclaration clz = ast.findClass();
         return paramClass.getConstructor(String.class, List.class)
@@ -42,7 +42,7 @@ public class Class extends Base {
                         ).collect(Collectors.toList()));
     }
 
-    public Class withAuthor(String author) {
+    public JavaBean withAuthor(String author) {
         setAuthor(author);
         return this;
     }

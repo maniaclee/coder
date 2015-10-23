@@ -5,11 +5,11 @@ import java.util.List;
 /**
  * Created by peng on 15/10/24.
  */
-public class Builder extends Class {
+public class Builder extends JavaBean {
     public String builderClassName;
 
-    public static Class newInstance(String s, String pack) throws Exception {
-        Builder b = (Builder) Class.parseBeanExtended(s, Builder.class);
+    public static JavaBean newInstance(String s, String pack) throws Exception {
+        Builder b = (Builder) JavaBean.parseBeanExtended(s, Builder.class);
         b.setBuilderClassName(b.getClassName() + "Builder");
         b.setPack(pack);
         return b;

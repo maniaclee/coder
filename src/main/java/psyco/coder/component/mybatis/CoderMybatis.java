@@ -6,7 +6,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import psyco.coder.coder.CommonCoder;
-import psyco.coder.component.bean.Class;
+import psyco.coder.component.bean.JavaBean;
 import psyco.coder.component.jdbc.JdbcExecutor;
 import psyco.coder.component.jdbc.TableInfo;
 import psyco.coder.core.CoderProxy;
@@ -82,7 +82,7 @@ public class CoderMybatis implements Serializable {
                     logger.warn("Skip table:%s", tableInfo.getName());
                     continue;
                 }
-                Class bean = tableInfo.toBean();
+                JavaBean bean = tableInfo.toBean();
 
                 IOUtils.write(mybatisCoder.mapper(tableInfo, pack(config.pack.basePackage, config.pack.mapper)), new FileOutputStream(mapper));
                 logger.info("write mapper:%s", mapper.getAbsolutePath());
@@ -100,7 +100,7 @@ public class CoderMybatis implements Serializable {
                 logger.info("write xml:%s", xml.getAbsolutePath());
 
                 if (dtoDir != null && dtoDir.isDirectory()) {
-                    Class dtoBean = tableInfo.toBean();
+                    JavaBean dtoBean = tableInfo.toBean();
                     dtoBean.setPack(pack(config.pack.basePackage, config.pack.dto));
                     dtoBean.setClassName(dtoBean.className + "DTO");
                     dtoBean.setClassNameLowerCase(dtoBean.classNameLowerCase + "DTO");

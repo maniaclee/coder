@@ -5,7 +5,7 @@ import org.apache.commons.io.IOUtils;
 import org.eclipse.jdt.core.dom.*;
 import org.junit.Test;
 import psyco.coder.util.CaseUtil;
-import psyco.coder.component.bean.Class;
+import psyco.coder.component.bean.JavaBean;
 import psyco.coder.component.bean.BeanField;
 
 import java.io.File;
@@ -85,12 +85,12 @@ public class ClassParser {
     }
 
 
-    public static Class extractClass(String src) throws Exception {
-        List<Class> classes = extractClasses(src);
-        return classes.isEmpty() ? null : classes.get(0);
+    public static JavaBean extractClass(String src) throws Exception {
+        List<JavaBean> javaBeans = extractClasses(src);
+        return javaBeans.isEmpty() ? null : javaBeans.get(0);
     }
 
-    public static List<Class> extractClasses(String src) throws Exception {
+    public static List<JavaBean> extractClasses(String src) throws Exception {
         ClassParser parser;
         try {
             parser = parse(src);
@@ -99,7 +99,7 @@ public class ClassParser {
             throw new JavaSrcParsingException("Failed to parse src :" + src);
         }
         return parser.classes().stream().map(clz -> {
-                    Class bean = new Class();
+                    JavaBean bean = new JavaBean();
                     bean.setClassName(clz.getName().toString());
                     bean.setFields(Lists.newArrayList(clz.getFields()).stream().map(f -> {
                                 BeanField field = new BeanField();

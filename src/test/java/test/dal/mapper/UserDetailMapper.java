@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Date;
 import test.dal.bean.UserDetail;
 /**
- * Created by psyco on 2015/19/24-02:10:15.
+ * Created by psyco on 2015/23/24-02:10:09.
  */
 public interface UserDetailMapper{
 
