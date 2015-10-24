@@ -52,7 +52,7 @@ public class JdbcType {
         return jdbcType;
     }
 
-    public static List<TableInfo> fromJDBCInfo(JdbcExecutor jdbc) throws Exception {
+    public static List<TableInfo> fromJDBCInfo(JdbcFactory jdbc) throws Exception {
         jdbc.init();
         return jdbc.getTables().entrySet().stream().map(en ->
                 new TableInfo(

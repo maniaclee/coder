@@ -11,7 +11,7 @@ pack: {
 baseDir: /Users/peng/workspace/github/coder/src/test/java,
 basePackage: test.dal,
  bean: bean,
- builder: builder,
+ builder: converter,
   dto: dto,
   mapper: mapper,
   repository: repository,

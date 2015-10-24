@@ -16,6 +16,6 @@ public interface BeanCoder {
     @Template("/template/builder.btl")
     String builder(@Param("bp") Builder builder);
 
-    @Template("/template/dto-builder.btl")
-    String dtoBuilder(@Param("bean") JavaBean bean, @Param("dto") JavaBean dto, @Param("dtoBuilderPack") String dtoBuilderPack);
+    @Template("/template/converter.btl")
+    String converter(@Param("bean") JavaBean bean, @Param("dto") JavaBean dto, @Param("dtoBuilderPack") String dtoBuilderPack);
 }

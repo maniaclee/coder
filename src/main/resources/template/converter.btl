@@ -7,7 +7,7 @@ import ${dto.pack}.${dto.className};
 /**
  * Created by ${bean.author} on ${bean.date}.
  */
-public class ${bean.className}DTOBuilder{
+public class ${bean.className}Converter{
     public static ${dto.className} to${dto.className}(${bean.className} ${bean.classNameLowerCase}){
         ${dto.className} re = new ${dto.className}();
          <% for(f in bean.fields){%>

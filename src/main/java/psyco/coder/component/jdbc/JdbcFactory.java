@@ -13,16 +13,19 @@ import java.util.stream.Collectors;
 /**
  * Created by lipeng on 15/8/25.
  */
-public class JdbcExecutor {
+public class JdbcFactory {
 
 
     public Connection connection;
     public DatabaseMetaData databaseMetaData;
     public JdbcConfig jdbcConfig;
 
-    public JdbcExecutor(JdbcConfig jdbcConfig) {
-        this.jdbcConfig = jdbcConfig;
+    public static JdbcFactory instance(JdbcConfig jdbcConfig) {
+        JdbcFactory jdbcFactory = new JdbcFactory();
+        jdbcFactory.jdbcConfig = jdbcConfig;
+        return jdbcFactory;
     }
+
 
     public void init() throws Exception {
         connection = getConnection(jdbcConfig.getUrl(), jdbcConfig.getUser(), jdbcConfig.getPassword());

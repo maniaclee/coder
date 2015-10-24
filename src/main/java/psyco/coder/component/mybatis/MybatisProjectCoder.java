@@ -8,7 +8,8 @@ import org.slf4j.LoggerFactory;
 import psyco.coder.coder.BeanCoder;
 import psyco.coder.coder.MybatisCoder;
 import psyco.coder.component.bean.JavaBean;
-import psyco.coder.component.jdbc.JdbcExecutor;
+import psyco.coder.component.bean.JavaBeanFactory;
+import psyco.coder.component.jdbc.JdbcFactory;
 import psyco.coder.component.jdbc.TableInfo;
 import psyco.coder.core.CoderProxy;
 
@@ -56,7 +57,7 @@ public class MybatisProjectCoder implements Serializable {
         Preconditions.checkArgument(config.pack != null, "Missing package");
         Preconditions.checkArgument(StringUtils.isNotBlank(config.pack.baseDir), "Missing base dir");
 
-        JdbcExecutor jdbc = new JdbcExecutor(config.getJdbcInfo());
+        JdbcFactory jdbc = JdbcFactory.instance(config.getJdbcInfo());
         jdbc.init();
 
         List<TableInfo> tables = jdbc.jdbcTables();
@@ -83,7 +84,7 @@ public class MybatisProjectCoder implements Serializable {
                     logger.warn("Skip table:%s", tableInfo.getName());
                     continue;
                 }
-                JavaBean bean = tableInfo.toBean();
+                JavaBean bean = JavaBeanFactory.instance(tableInfo);
 
                 IOUtils.write(mybatisCoder.mapper(tableInfo, pack(config.pack.basePackage, config.pack.mapper)), new FileOutputStream(mapper));
                 logger.info("write mapper:%s", mapper.getAbsolutePath());
@@ -101,7 +102,7 @@ public class MybatisProjectCoder implements Serializable {
                 logger.info("write xml:%s", xml.getAbsolutePath());
 
                 if (dtoDir != null && dtoDir.isDirectory()) {
-                    JavaBean dtoBean = tableInfo.toBean();
+                    JavaBean dtoBean = JavaBeanFactory.instance(tableInfo);
                     dtoBean.setPack(pack(config.pack.basePackage, config.pack.dto));
                     dtoBean.setClassName(dtoBean.className + "DTO");
                     dtoBean.setClassNameLowerCase(dtoBean.classNameLowerCase + "DTO");
@@ -110,10 +111,10 @@ public class MybatisProjectCoder implements Serializable {
                     logger.info("write dto:%s", xml.getAbsolutePath());
 
                     if (dtoBuilderDir != null && dtoBuilderDir.isDirectory()) {
-                        File dtoBuilderFile = new File(dtoBuilderDir, dtoBean.className + "Builder.java");
+                        File dtoBuilderFile = new File(dtoBuilderDir, bean.className + "Converter.java");
 
-                        IOUtils.write(beanCoder.dtoBuilder(bean, dtoBean, pack(config.pack.basePackage, config.pack.builder)), new FileOutputStream(dtoBuilderFile));
-                        logger.info("write dtoBuilder:%s", xml.getAbsolutePath());
+                        IOUtils.write(beanCoder.converter(bean, dtoBean, pack(config.pack.basePackage, config.pack.builder)), new FileOutputStream(dtoBuilderFile));
+                        logger.info("write converter:%s", xml.getAbsolutePath());
                     }
                 }
             } catch (IOException e) {

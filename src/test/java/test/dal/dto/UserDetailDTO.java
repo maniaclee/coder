@@ -3,7 +3,7 @@ package test.dal.dto;
 import java.io.Serializable;
 import java.util.Date;
 /**
- * Created by psyco on 2015/23/24-02:10:09.
+ * Created by psyco on 2015/05/24-12:10:49.
  */
 public class UserDetailDTO implements Serializable{
 

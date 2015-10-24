@@ -4,13 +4,9 @@ import com.google.common.base.CaseFormat;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import psyco.coder.component.Base;
-import psyco.coder.component.bean.JavaBean;
-import psyco.coder.component.bean.BeanField;
-import psyco.coder.util.CaseUtil;
 
 import java.io.Serializable;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * Created by peng on 15/10/10.
@@ -29,20 +25,6 @@ public class TableInfo extends Base implements Serializable {
         this.classNameLower = StringUtils.uncapitalize(this.className);
         this.columns = columns;
         this.primaryKey = columns.stream().filter(columnInfo -> columnInfo.isPrimaryKey()).findFirst().get();
-    }
-
-    public JavaBean toBean() {
-        return new JavaBean(
-                getClassName(),
-                getColumns().stream().map(col ->
-                        new BeanField(
-                                col.getFieldName(),
-                                CaseUtil.getter(col.getFieldName()),
-                                CaseUtil.setter(col.getFieldName()),
-                                col.getJavaType()
-                        )).collect(Collectors.toList()),
-                getPack())
-                .withAuthor(getAuthor());
     }
 
     public String getName() {
