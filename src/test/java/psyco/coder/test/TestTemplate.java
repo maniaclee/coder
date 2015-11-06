@@ -31,7 +31,7 @@ public class TestTemplate {
     @Test
     public void newsds() throws Exception {
         Yaml y = new Yaml();
-        MybatisConfig config = y.loadAs(new FileReader("/Users/peng/workspace/github/coder/src/main/resources/mybatis.gen.yaml"), MybatisConfig.class);
+        MybatisConfig config = y.loadAs(new FileReader("/Users/psyco/workspace/github/coder/src/main/resources/mybatis.gen.yaml"), MybatisConfig.class);
         MybatisProjectCoder.instance(config).mybatisProject();
     }
 

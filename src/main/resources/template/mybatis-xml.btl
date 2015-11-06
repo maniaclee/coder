@@ -10,7 +10,7 @@
     <sql id="selectAllColumns">
         SELECT
         ${sqls.selectClause}
-        FROM ${table.className}
+        FROM ${table.name}
     </sql>
 
     <sql id="setAllColumns">

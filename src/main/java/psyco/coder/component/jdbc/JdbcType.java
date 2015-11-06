@@ -47,9 +47,9 @@ public class JdbcType {
         Matcher m = Pattern.compile("^(\\S+)\\s*").matcher(jdbcType);
         if (m.find())
             jdbcType = typeMap.get(m.group(1));
-        if (StringUtils.isBlank(jdbcType))
-            throw new RuntimeException("Unknown type for:" + jdbcType);
-        return jdbcType;
+//        if (StringUtils.isBlank(jdbcType))
+//            throw new RuntimeException("Unknown type for:" + jdbcType);
+        return StringUtils.isBlank(jdbcType)?"":jdbcType;
     }
 
     public static List<TableInfo> fromJDBCInfo(JdbcFactory jdbc) throws Exception {

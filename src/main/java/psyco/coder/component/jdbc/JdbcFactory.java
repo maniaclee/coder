@@ -97,17 +97,18 @@ public class JdbcFactory {
 
 
     public List<TableInfo> jdbcTables() throws Exception {
+        getTables().forEach((k,v)-> System.out.println(k+":\t"+v));
         return getTables().entrySet().stream().map(en ->
                 new TableInfo(
                         en.getKey(),
                         en.getValue().stream()
                                 .map(col -> {
                                     String columnName = col.get(0);
-                                    String fieldName = CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL, columnName);
                                     String columnType = col.get(1);
-                                    String columnJavaType = JdbcType.getJavaType(columnType);
                                     int columnSize = Integer.parseInt(col.get(2));
                                     boolean isPrimaryKey = Boolean.parseBoolean(col.get(3));
+                                    String fieldName = CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL, columnName);
+                                    String columnJavaType = JdbcType.getJavaType(columnType);
                                     return new ColumnInfo(columnName, fieldName, columnType, columnJavaType, columnSize, isPrimaryKey);
                                 }).collect(Collectors.toList())))
                 .collect(Collectors.toList());
